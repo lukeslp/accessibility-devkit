@@ -1,0 +1,29 @@
+{
+  "name": "@accessibility-devkit/components",
+  "version": "0.1.0",
+  "description": "Core accessible components and patterns.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "accessibility",
+    "a11y",
+    "components",
+    "patterns"
+  ],
+  "author": "Luke Steuber",
+  "license": "MIT",
+  "dependencies": {
+    "focus-trap": "^7.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24"
+  }
+}

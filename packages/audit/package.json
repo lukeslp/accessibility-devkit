@@ -1,0 +1,31 @@
+{
+  "name": "@accessibility-devkit/audit",
+  "version": "0.1.0",
+  "description": "Auditing and testing tools for the Accessibility Devkit.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "accessibility",
+    "a11y",
+    "audit",
+    "testing",
+    "axe"
+  ],
+  "author": "Luke Steuber",
+  "license": "MIT",
+  "dependencies": {
+    "axe-core": "^4.8.4",
+    "eslint-plugin-jsx-a11y": "^6.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "@accessibility-devkit/accommodations",
+  "version": "0.1.0",
+  "description": "Utilities for specific disability accommodations.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "accessibility",
+    "a11y",
+    "accommodations",
+    "color-blindness",
+    "dyslexia"
+  ],
+  "author": "Luke Steuber",
+  "license": "MIT",
+  "dependencies": {
+    "color-blind": "^0.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24"
+  }
+}

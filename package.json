@@ -1,0 +1,26 @@
+{
+  "name": "accessibility-devkit-workspace",
+  "private": true,
+  "author": "Luke Steuber",
+  "license": "MIT",
+  "scripts": {
+    "build": "pnpm --filter=\"./packages/*\" --parallel build",
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier --write .",
+    "test": "pnpm --filter=\"./packages/*\" --parallel test",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm build && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.1",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.2.5",
+    "tsup": "^8.0.2",
+    "typescript": "^5.3.3"
+  },
+  "packageManager": "pnpm@8.15.4"
+}

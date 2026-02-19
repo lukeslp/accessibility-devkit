@@ -28,7 +28,7 @@ This repository is a monorepo containing the following packages:
 | **`@accessibility-devkit/audit`**     | Pre-configured accessibility testing with Axe and ESLint.                   |
 | **`@accessibility-devkit/components`**| Unstyled, accessible component patterns and focus management utilities.     |
 | **`@accessibility-devkit/accommodations`** | Utilities for specific accommodations like color blindness and reduced motion. |
-| **`@accessibility-devkit/llm`**       | A curated collection of prompts, skills, and API wrappers for using LLMs in accessibility workflows. (Coming Soon) |
+
 
 ## Getting Started
 
@@ -39,6 +39,14 @@ pnpm install @accessibility-devkit/audit @accessibility-devkit/components
 ```
 
 Then, refer to the individual package `README.md` files for detailed usage instructions.
+
+## Related Projects
+
+| Project | Description |
+| --- | --- |
+| [accessibility-devkit-llm](https://github.com/lukeslp/accessibility-devkit-llm) | LLM extension: prompts, skills, tools, MCP servers, and API wrappers for accessibility workflows. |
+| [awesome-accessibility](https://github.com/lukeslp/awesome-accessibility) | Curated list of accessibility resources, tools, and best practices. |
+| [accessibility-atlas](https://github.com/lukeslp/accessibility-atlas) | 53 datasets on disability demographics, web accessibility, and assistive technology usage. |
 
 ## Contributing
 

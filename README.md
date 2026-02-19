@@ -13,9 +13,9 @@
 
 Web accessibility is not a feature that can be bolted on after the fact. True accessibility is an integral part of the development process, just like performance, security, and responsive design. This toolkit is built on three core principles:
 
-1.  **Code-Level Integration:** Accessibility should be addressed at the source. We provide tools that integrate directly into your development workflow, from linting and testing to providing accessible component primitives.
-2.  **Layered Approach:** No single tool can solve accessibility. We provide a layered toolkit that covers testing, component patterns, and specific disability accommodations, allowing you to choose the right tool for the job.
-3.  **Developer Experience:** We believe that making accessibility easy for developers is the key to a more accessible web. Our tools are designed to be ergonomic, well-documented, and easy to integrate into any project.
+1.  **Code-Level Integration:** Accessibility should be addressed at the source. I provide tools that integrate directly into your development workflow, from linting and testing to providing accessible component primitives.
+2.  **Layered Approach:** No single tool can solve accessibility. I provide a layered toolkit that covers testing, component patterns, and specific disability accommodations, allowing you to choose the right tool for the job.
+3.  **Developer Experience:** I believe that making accessibility easy for developers is the key to a more accessible web. My tools are designed to be ergonomic, well-documented, and easy to integrate into any project.
 
 For a more detailed explanation of why this approach is superior to overlay widgets, please read our guide: [Why Not Overlays?](./docs/02-why-not-overlays.md).
 

@@ -22,7 +22,7 @@
   "author": "Luke Steuber",
   "license": "MIT",
   "dependencies": {
-    "color-blind": "^0.2.0"
+    "color-blind": "^0.1.3"
   },
   "devDependencies": {
     "@types/node": "^20.11.24"

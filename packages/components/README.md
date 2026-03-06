@@ -1,32 +1,116 @@
 # @accessibility-devkit/components
 
-Unstyled, accessible component patterns and focus management utilities for the Accessibility Devkit.
+Accessible UI primitives implemented to spec: focus containment, roving tabindex, screen reader announcements, skip links, dialogs, and menus. Framework-agnostic TypeScript.
 
-## Installation
+## Install
 
 ```bash
-pnpm install @accessibility-devkit/components
+npm install @accessibility-devkit/components
 ```
 
-## Usage
+## Primitives
 
-```typescript
-import { trapFocus } from '@accessibility-devkit/components';
+### FocusTrap
 
-const modal = document.getElementById('my-modal');
-const trap = trapFocus(modal);
-trap.activate();
+Confines keyboard focus to a container element. Essential for modals and off-canvas panels. Focus returns to the trigger element on deactivation.
 
-// When done:
-trap.deactivate();
+```ts
+import { FocusTrap } from '@accessibility-devkit/components';
+
+const trap = new FocusTrap(document.getElementById('modal')!, {
+  initialFocus: '#modal-heading',
+  allowOutsideClick: false,
+});
+
+openButton.addEventListener('click', () => trap.activate());
+closeButton.addEventListener('click', () => trap.deactivate());
+
+// For nested modals, pause the outer trap rather than deactivating it
+trap.pause();
+trap.unpause();
 ```
 
-## What's Included
+### createRovingTabindex
 
-| Utility | Purpose |
-|---|---|
-| `trapFocus` | Trap keyboard focus within a container element (e.g., modals, dialogs). |
+Implements the roving tabindex pattern for composite widgets (toolbars, radio groups, tab lists, menu items). Arrow keys move focus within the group; Tab exits it entirely.
+
+```ts
+import { createRovingTabindex } from '@accessibility-devkit/components';
+
+const { destroy } = createRovingTabindex(
+  document.getElementById('toolbar')!,
+  '[role="button"]'
+);
+
+// Remove event listeners when the component unmounts
+destroy();
+```
+
+### announceToScreenReader
+
+Posts a message to an ARIA live region. Use `'polite'` for non-urgent status updates and `'assertive'` for errors that need immediate attention.
+
+```ts
+import { announceToScreenReader } from '@accessibility-devkit/components';
+
+announceToScreenReader('3 results found');
+announceToScreenReader('Session expired. Please sign in again.', 'assertive');
+```
+
+The live region is created once on first call and reused for all subsequent calls.
+
+### createSkipLink
+
+Creates a visually-hidden skip-to-main-content link that becomes visible on keyboard focus. Insert it as the first child of `<body>`.
+
+```ts
+import { createSkipLink } from '@accessibility-devkit/components';
+
+const skip = createSkipLink('main-content', 'Skip to main content');
+document.body.insertBefore(skip, document.body.firstChild);
+```
+
+### AccessibleDialog
+
+Wraps a `<dialog>` or `role="dialog"` element with focus trapping, ARIA attributes, and Escape-key handling.
+
+```ts
+import { AccessibleDialog } from '@accessibility-devkit/components';
+
+const dialog = new AccessibleDialog(
+  document.getElementById('confirm-dialog')!,
+  {
+    closeSelector: '[data-dialog-close]',
+    closeOnEscape: true,
+    onOpen: () => console.log('opened'),
+    onClose: () => console.log('closed'),
+  }
+);
+
+document.getElementById('open-btn')!.addEventListener('click', () => dialog.open());
+```
+
+The constructor sets `aria-modal="true"` and `role="dialog"` if not already present, and hides the element until `open()` is called.
+
+### AccessibleMenu
+
+Manages a disclosure-style dropdown menu: trigger button, arrow-key navigation, Escape to close, and click-outside dismissal.
+
+```ts
+import { AccessibleMenu } from '@accessibility-devkit/components';
+
+const menu = new AccessibleMenu(
+  document.getElementById('menu-trigger')!,
+  document.getElementById('menu-list')!,
+  '[role="menuitem"]'  // optional selector, this is the default
+);
+
+// Remove all listeners when done
+menu.destroy();
+```
+
+The trigger automatically receives `aria-haspopup="true"` and `aria-expanded` is toggled on open/close.
 
 ## License
 
-MIT
+MIT. Author: Luke Steuber.

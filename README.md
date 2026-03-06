@@ -1,57 +1,79 @@
-# Accessibility Devkit
+# accessibility-devkit
 
-> A developer-first toolkit for building accessible web experiences the right way.
-
-`accessibility-devkit` is not another overlay widget. It is a collection of code-level tools, configurations, and best-practice patterns designed to help developers build robust, accessible applications from the ground up. It makes the *correct* way of implementing accessibility the *easy* way.
-
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](CONTRIBUTING.md)
-
----
-
-## Philosophy
-
-Web accessibility is not a feature that can be bolted on after the fact. True accessibility is an integral part of the development process, just like performance, security, and responsive design. This toolkit is built on three core principles:
-
-1.  **Code-Level Integration:** Accessibility should be addressed at the source. I provide tools that integrate directly into your development workflow, from linting and testing to providing accessible component primitives.
-2.  **Layered Approach:** No single tool can solve accessibility. I provide a layered toolkit that covers testing, component patterns, and specific disability accommodations, allowing you to choose the right tool for the job.
-3.  **Developer Experience:** I believe that making accessibility easy for developers is the key to a more accessible web. My tools are designed to be ergonomic, well-documented, and easy to integrate into any project.
-
-For a more detailed explanation of why this approach is superior to overlay widgets, please read our guide: [Why Not Overlays?](./docs/02-why-not-overlays.md).
+A TypeScript monorepo of tools for building genuinely accessible web interfaces — no overlays, no shortcuts, no generated fixes. Each package implements real patterns grounded in WCAG 2.x.
 
 ## Packages
 
-This repository is a monorepo containing the following packages:
+| Package | Description |
+|---------|-------------|
+| [`@accessibility-devkit/audit`](./packages/audit/README.md) | axe-core runner, violation summaries, and a pre-built ESLint jsx-a11y config |
+| [`@accessibility-devkit/components`](./packages/components/README.md) | Accessible UI primitives: focus traps, roving tabindex, live regions, skip links, dialogs, menus |
+| [`@accessibility-devkit/accommodations`](./packages/accommodations/README.md) | Color blindness simulation, contrast ratios, WCAG checks, and media-query watchers |
 
-| Package                               | Description                                                                 |
-| ------------------------------------- | --------------------------------------------------------------------------- |
-| **`@accessibility-devkit/audit`**     | Pre-configured accessibility testing with Axe and ESLint.                   |
-| **`@accessibility-devkit/components`**| Unstyled, accessible component patterns and focus management utilities.     |
-| **`@accessibility-devkit/accommodations`** | Utilities for specific accommodations like color blindness and reduced motion. |
-
-
-## Getting Started
-
-To get started, install the packages you need in your project:
+## Install
 
 ```bash
-pnpm install @accessibility-devkit/audit @accessibility-devkit/components
+npm install @accessibility-devkit/audit
+npm install @accessibility-devkit/components
+npm install @accessibility-devkit/accommodations
 ```
 
-Then, refer to the individual package `README.md` files for detailed usage instructions.
+Or all at once:
+
+```bash
+npm install @accessibility-devkit/audit @accessibility-devkit/components @accessibility-devkit/accommodations
+```
+
+## Quick Examples
+
+```ts
+// Run an audit against the current document
+import { runAudit, formatReport } from '@accessibility-devkit/audit';
+const result = await runAudit(document, { level: 'AA' });
+console.log(formatReport(result, 'markdown'));
+
+// Add a skip link and trap focus in a modal
+import { createSkipLink, FocusTrap } from '@accessibility-devkit/components';
+document.body.insertBefore(createSkipLink('main'), document.body.firstChild);
+const trap = new FocusTrap(document.getElementById('modal')!);
+
+// Check contrast before shipping a color
+import { meetsWCAG, findAccessibleColor } from '@accessibility-devkit/accommodations';
+if (!meetsWCAG('#aaaaaa', '#ffffff')) {
+  const fixed = findAccessibleColor('#aaaaaa', '#ffffff');
+  console.log('Use this instead:', fixed);
+}
+```
+
+## Philosophy
+
+- **No overlays.** Accessibility overlays mask problems rather than fix them. This toolkit gives you the primitives to fix the source.
+- **WCAG-first.** Every utility maps to a specific WCAG 2.x success criterion.
+- **Real implementations.** Focus management, contrast math, and live regions are implemented correctly, not approximated.
+- **Framework-agnostic.** Plain TypeScript. Works with React, Vue, Svelte, or no framework.
 
 ## Related Projects
 
 | Project | Description |
-| --- | --- |
-| [accessibility-devkit-llm](https://github.com/lukeslp/accessibility-devkit-llm) | LLM extension: prompts, skills, tools, MCP servers, and API wrappers for accessibility workflows. |
-| [awesome-accessibility](https://github.com/lukeslp/awesome-accessibility) | Curated list of accessibility resources, tools, and best practices. |
-| [accessibility-atlas](https://github.com/lukeslp/accessibility-atlas) | 53 datasets on disability demographics, web accessibility, and assistive technology usage. |
+|---------|-------------|
+| [accessibility-devkit-llm](https://github.com/lukeslp/accessibility-devkit-llm) | LLM extension: prompts, skills, tools, MCP servers, and API wrappers for accessibility workflows |
+| [awesome-accessibility](https://github.com/lukeslp/awesome-accessibility) | Curated list of accessibility resources, tools, and best practices |
+| [accessibility-atlas](https://github.com/lukeslp/accessibility-atlas) | 53 datasets on disability demographics, web accessibility, and assistive technology usage |
+
+## Development
+
+```bash
+# Build all packages
+pnpm run build --recursive
+
+# Build a single package
+cd packages/audit && pnpm run build
+```
 
 ## Contributing
 
-Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to get started.
+See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+MIT. Author: Luke Steuber.

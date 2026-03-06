@@ -1,5 +1,9 @@
 # accessibility-devkit
 
+[![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
+[![WCAG 2.2 AA](https://img.shields.io/badge/WCAG-2.2_AA-blue.svg)](https://www.w3.org/TR/WCAG22/)
+
 Not another overlay widget. Not a snippet pack. This is a collection of code-level tools, user interaction patterns, and runtime utilities that help you build accessible applications from the ground up.
 
 You do NOT want accessibility technical debt. It compounds, it's expensive to retrofit, and it locks out real people from using what you built. Building it right from the start is easier than fixing it later — and it's just the right thing to do.

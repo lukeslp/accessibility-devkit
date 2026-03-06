@@ -1,8 +1,19 @@
 {
   "name": "accessibility-devkit-workspace",
   "private": true,
-  "author": "Luke Steuber",
+  "author": {
+    "name": "Luke Steuber",
+    "email": "luke@lukesteuber.com"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukeslp/accessibility-devkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lukeslp/accessibility-devkit/issues"
+  },
+  "homepage": "https://github.com/lukeslp/accessibility-devkit#readme",
   "scripts": {
     "build": "pnpm --filter=\"./packages/*\" --parallel build",
     "lint": "eslint . --ext .ts,.tsx",

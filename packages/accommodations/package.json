@@ -19,8 +19,20 @@
     "color-blindness",
     "dyslexia"
   ],
-  "author": "Luke Steuber",
+  "author": {
+    "name": "Luke Steuber",
+    "email": "luke@lukesteuber.com"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukeslp/accessibility-devkit.git",
+    "directory": "packages/accommodations"
+  },
+  "bugs": {
+    "url": "https://github.com/lukeslp/accessibility-devkit/issues"
+  },
+  "homepage": "https://github.com/lukeslp/accessibility-devkit/tree/main/packages/accommodations#readme",
   "dependencies": {
     "color-blind": "^0.1.3"
   },

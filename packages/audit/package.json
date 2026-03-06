@@ -19,8 +19,20 @@
     "testing",
     "axe"
   ],
-  "author": "Luke Steuber",
+  "author": {
+    "name": "Luke Steuber",
+    "email": "luke@lukesteuber.com"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukeslp/accessibility-devkit.git",
+    "directory": "packages/audit"
+  },
+  "bugs": {
+    "url": "https://github.com/lukeslp/accessibility-devkit/issues"
+  },
+  "homepage": "https://github.com/lukeslp/accessibility-devkit/tree/main/packages/audit#readme",
   "dependencies": {
     "axe-core": "^4.8.4",
     "eslint-plugin-jsx-a11y": "^6.8.0"

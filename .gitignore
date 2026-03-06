@@ -5,3 +5,10 @@ dist/
 .DS_Store
 .env
 .env.local
+CLAUDE.md
+CRITIC.md
+ONBOARD.md
+SUGGESTIONS.md
+REPO_AUDIT.md
+*_STATUS.md
+.aider.*

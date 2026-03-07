@@ -143,7 +143,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Author
 
-Luke Steuber — [lukesteuber.com](https://lukesteuber.com) · [@lukesteuber.com](https://bsky.app/profile/lukesteuber.com) on Bluesky
+**Luke Steuber** · [lukesteuber.com](https://lukesteuber.com) · [@lukesteuber.com](https://bsky.app/profile/lukesteuber.com)
 
 ## License
 

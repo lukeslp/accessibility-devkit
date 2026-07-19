@@ -33,6 +33,12 @@ test('offers a repository-backed direct skill fallback and separate Claude comma
 
   assert.match(readme, /git clone https:\/\/github\.com\/lukeslp\/accessibility-devkit\.git/i);
   assert.match(readme, /\.agents\/skills\/accessibility/);
+  assert.match(readme, /target="\$HOME\/\.agents\/skills\/accessibility"/);
+  assert.match(readme, /\[ -e "\$target" \] \|\| \[ -L "\$target" \]/);
+  assert.match(readme, /ls -ld "\$target"/);
+  assert.match(readme, /remove only that entry with: rm/i);
+  assert.match(readme, /different.*destination/i);
+  assert.match(readme, /never overwrite.*nest/i);
   assert.match(readme, /\/plugin marketplace add lukeslp\/accessibility-devkit/);
   assert.match(readme, /\/plugin install accessibility@accessibility-devkit/);
 });
@@ -84,4 +90,17 @@ test('keeps plugin, skill, and package identifiers valid for the quick start', a
     ],
   );
   assert.match(workspace.scripts.test, /tests\/docs\/adoption-quick-start\.test\.mjs/);
+});
+
+test('runs a reproducible spelling check for the adoption documentation', async () => {
+  const workspace = JSON.parse(await read('package.json'));
+  const cspell = JSON.parse(await read('cspell.json'));
+
+  assert.match(
+    workspace.scripts.spelling,
+    /^cspell --config cspell\.json README\.md examples\/accessible-component-review\.md$/,
+  );
+  assert.match(workspace.scripts.test, /pnpm spelling &&/);
+  assert.ok(cspell.words.includes('Codex'));
+  assert.ok(cspell.words.includes('WCAG'));
 });

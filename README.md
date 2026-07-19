@@ -42,11 +42,27 @@ For current desktop-app details, see the official [OpenAI Plugins documentation]
 If the marketplace import is unavailable, make the repository’s skill discoverable directly. From the cloned repository:
 
 ```bash
-mkdir -p ~/.agents/skills
-ln -s "$PWD/skills/accessibility" ~/.agents/skills/accessibility
+skill_source="$PWD/skills/accessibility"
+target="$HOME/.agents/skills/accessibility"
+
+if [ -e "$target" ] || [ -L "$target" ]; then
+  printf 'Stopped: %s already exists or is a symlink.\n' "$target"
+  ls -ld "$target"
+  printf 'After confirming it is no longer needed, remove only that entry with: rm "%s"\n' "$target"
+  printf 'Or choose a different destination that you control.\n'
+  exit 1
+fi
+
+if [ ! -d "$skill_source" ]; then
+  printf 'Stopped: expected skill directory is missing: %s\n' "$skill_source"
+  exit 1
+fi
+
+mkdir -p "$HOME/.agents/skills"
+ln -s "$skill_source" "$target"
 ```
 
-Codex scans `~/.agents/skills`; restart the app if **Accessibility** does not appear in the skill picker after linking it. Use the same first prompt above to verify it.
+The guard catches both existing entries and broken symlinks before making a change. It will never overwrite an entry or nest a link inside it. Codex scans `~/.agents/skills`; restart the app if **Accessibility** does not appear in the skill picker after linking it. Use the same first prompt above to verify it.
 
 ### Claude Code
 

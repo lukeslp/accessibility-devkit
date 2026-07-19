@@ -1,0 +1,28 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "useGitignore": true,
+  "words": [
+    "a11y",
+    "ARIA",
+    "axe",
+    "Codex",
+    "devkit",
+    "jsx",
+    "LLMs",
+    "MCP",
+    "lukeslp",
+    "lukesteuber",
+    "Steuber",
+    "npm",
+    "pnpm",
+    "protanomaly",
+    "deuteranomaly",
+    "tritanomaly",
+    "achromatopsia",
+    "monochromacy",
+    "tsup",
+    "TypeScript",
+    "WCAG"
+  ]
+}

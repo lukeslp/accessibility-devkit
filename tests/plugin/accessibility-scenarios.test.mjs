@@ -48,3 +48,51 @@ test('routes a review through the required accessibility evidence', async () => 
     assert.match(verification, new RegExp(evidence, 'i'));
   }
 });
+
+test('keeps versioned baseline and post-skill review scenarios for the same prompts', async () => {
+  const fixture = JSON.parse(
+    await read('tests/plugin/fixtures/accessibility-review-scenarios.v1.json'),
+  );
+
+  assert.equal(fixture.schemaVersion, 1);
+  assert.ok(fixture.scenarios.length >= 2);
+
+  for (const scenario of fixture.scenarios) {
+    assert.match(scenario.prompt, /\S/);
+    assert.ok(scenario.baseline.omittedUserGroups.length > 0);
+    assert.ok(scenario.baseline.omittedManualEvidence.length > 0);
+    assert.ok(scenario.baseline.falseConfidenceRisks.length > 0);
+    assert.ok(scenario.baseline.output.length > 0);
+
+    assert.ok(scenario.postSkill.affectedUsers.length >= 3);
+    for (const evidence of [
+      'Source inspection',
+      'Automated scan',
+      'Keyboard',
+      'Screen reader',
+      'Zoom and reflow',
+      'User testing',
+    ]) {
+      assert.ok(scenario.postSkill.manualEvidence.includes(evidence));
+      assert.match(
+        scenario.postSkill.verification[evidence],
+        /completed|unverified|planned/i,
+      );
+    }
+    assert.ok(scenario.postSkill.routing.accessibility.length > 0);
+    assert.ok(scenario.postSkill.routing.intentionalUx.length > 0);
+    assert.ok(scenario.postSkill.remediation.length > 0);
+    assert.match(scenario.postSkill.conclusion, /not.*conformance|does not.*conformance/i);
+    assert.ok(scenario.postSkill.output.length > 0);
+  }
+});
+
+test('runs plugin scenarios from the root test command', async () => {
+  const workspace = JSON.parse(await read('package.json'));
+
+  assert.match(
+    workspace.scripts.test,
+    /node --test tests\/plugin\/accessibility-scenarios\.test\.mjs/,
+  );
+  assert.match(workspace.scripts.test, /pnpm --filter="\.\/packages\/\*" --parallel test/);
+});

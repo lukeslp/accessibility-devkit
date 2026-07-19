@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "description": "Paired baseline and post-skill fixtures for the original public accessibility review prompts. Baseline entries preserve concrete omissions and false-confidence risks; post-skill entries show the expected evidence-aware response shape.",
+  "scenarios": [
+    {
+      "id": "checkout-dialog",
+      "prompt": "Review this interface for accessibility barriers: a checkout dialog opens from a div with an onClick handler, offers five payment choices with equal visual weight, closes after payment, and shows a green success message.",
+      "baseline": {
+        "output": "Run an automated scan and check color contrast. The dialog has no reported violations, and the green success message is visible, so this is likely WCAG AA compliant.",
+        "omittedUserGroups": [
+          "keyboard-only users",
+          "screen-reader users",
+          "switch and voice-control users",
+          "people who need reduced decision burden"
+        ],
+        "omittedManualEvidence": [
+          "keyboard focus order and focus restoration after closing the dialog",
+          "screen-reader announcement and accessible name for the dialog and trigger",
+          "200% zoom and reflow of the payment choices",
+          "task testing of payment-choice comprehension"
+        ],
+        "falseConfidenceRisks": [
+          "Treating a scan with no reported violations as WCAG conformance.",
+          "Treating visible green text as proof that a status change is exposed to assistive technology.",
+          "Ignoring the generic clickable div and the missing recovery path for dialog focus."
+        ]
+      },
+      "postSkill": {
+        "output": "Finding: the div trigger has no native button behavior, so keyboard, switch, voice-control, and screen-reader users may not discover or activate checkout consistently. Replace it with a button, move focus into the dialog on open, announce a named status message after payment, and restore focus to the trigger on close. Mark the payment-choice hierarchy and decision burden for intentional-ux review. Source inspection is complete; automated, keyboard, screen-reader, zoom/reflow, and user evidence remain unverified or planned. This is not a conformance claim.",
+        "affectedUsers": [
+          "keyboard-only users",
+          "screen-reader users",
+          "switch and voice-control users",
+          "people with low vision",
+          "people who benefit from clearer decision support"
+        ],
+        "manualEvidence": [
+          "Source inspection",
+          "Automated scan",
+          "Keyboard",
+          "Screen reader",
+          "Zoom and reflow",
+          "User testing"
+        ],
+        "verification": {
+          "Source inspection": "completed: the generic click target, dialog focus path, and color-only status cue were identified in source.",
+          "Automated scan": "unverified: run available rules against the trigger, open dialog, and payment-complete state.",
+          "Keyboard": "planned: Tab, Shift+Tab, Enter, Space, and Escape must reach, operate, and restore focus through the full payment path.",
+          "Screen reader": "planned: test the trigger name, dialog name, focus movement, and payment status with a documented browser and assistive-technology combination.",
+          "Zoom and reflow": "planned: test payment choices and the confirmation state at 200% zoom and narrow reflow.",
+          "User testing": "planned: observe payment-choice comprehension and error recovery with people who use relevant input methods."
+        },
+        "routing": {
+          "accessibility": [
+            "Replace the generic click target with a native button.",
+            "Manage dialog focus and expose the completion status programmatically.",
+            "Add a non-color cue for payment completion."
+          ],
+          "intentionalUx": [
+            "Review whether five equally weighted payment choices create avoidable decision burden.",
+            "Clarify the primary payment path and recovery information."
+          ]
+        },
+        "remediation": [
+          "Use a button for the checkout trigger.",
+          "Move focus into the dialog and restore it to the trigger when the dialog closes.",
+          "Use a named status message with text and a non-color visual cue after payment."
+        ],
+        "conclusion": "The inspected source identifies likely barriers; completed and planned checks do not establish WCAG conformance."
+      }
+    },
+    {
+      "id": "appointment-reschedule",
+      "prompt": "Fix keyboard and focus behavior in this component: an appointment calendar requires dragging a small handle to reschedule, uses color alone for open slots, auto-advances after selection, and displays an error only at the top of the page.",
+      "baseline": {
+        "output": "Add an ARIA label to the drag handle and improve the slot colors. The component should be accessible once the label is present and contrast passes.",
+        "omittedUserGroups": [
+          "keyboard-only users",
+          "people with tremor or limited precision",
+          "screen-reader users",
+          "people with color-vision differences",
+          "people who need time or predictable state changes"
+        ],
+        "omittedManualEvidence": [
+          "keyboard alternative to drag rescheduling",
+          "focus placement after auto-advance and after validation failure",
+          "screen-reader exposure of slot availability and errors",
+          "zoom/reflow of the small handle and calendar",
+          "task testing of schedule changes and recovery"
+        ],
+        "falseConfidenceRisks": [
+          "Assuming an ARIA label makes a drag-only interaction operable.",
+          "Assuming contrast alone solves color-only availability information.",
+          "Claiming accessibility without testing focus, error recovery, or the complete appointment task."
+        ]
+      },
+      "postSkill": {
+        "output": "Finding: drag-only rescheduling and a small handle impose precision and keyboard barriers; color-only slot state and an auto-advance can hide availability and disorient people after selection. Provide a keyboard-operable reschedule control with a non-drag alternative, text or icon state in addition to color, predictable focus movement, and an error summary that moves focus or is announced with a link to the invalid field. Keep semantic controls, keyboard interaction, and assistive-technology checks in accessibility; send calendar hierarchy and scheduling-flow trade-offs to intentional-ux. Source inspection is complete; runtime and user evidence are unverified or planned. This does not establish conformance.",
+        "affectedUsers": [
+          "keyboard-only users",
+          "people with tremor or limited precision",
+          "screen-reader users",
+          "people with color-vision differences",
+          "people who need predictable timing and error recovery"
+        ],
+        "manualEvidence": [
+          "Source inspection",
+          "Automated scan",
+          "Keyboard",
+          "Screen reader",
+          "Zoom and reflow",
+          "User testing"
+        ],
+        "verification": {
+          "Source inspection": "completed: drag-only operation, color-only state, auto-advance, and remote error placement were identified.",
+          "Automated scan": "unverified: run available rules on the calendar, selected state, and error state.",
+          "Keyboard": "planned: reschedule without a pointer, observe focus after selection, and reach errors and recovery controls.",
+          "Screen reader": "planned: test slot name, state, selected value, focus movement, and validation announcement with a documented browser and assistive-technology combination.",
+          "Zoom and reflow": "planned: test the handle, calendar grid, and error recovery at 200% zoom and narrow reflow.",
+          "User testing": "planned: observe scheduling, correction, and recovery with people using keyboard, switch, voice, or other relevant input methods."
+        },
+        "routing": {
+          "accessibility": [
+            "Provide a native, keyboard-operable reschedule control and an alternative to dragging.",
+            "Expose slot availability and selection with names, states, and non-color cues.",
+            "Make error identification and recovery reachable and announced."
+          ],
+          "intentionalUx": [
+            "Review the calendar hierarchy, auto-advance decision, and scheduling-flow trade-offs.",
+            "Reduce the precision and memory burden of changing an appointment."
+          ]
+        },
+        "remediation": [
+          "Offer a button or form control to choose a new appointment time without dragging.",
+          "Pair color with text or icon availability state.",
+          "Keep focus predictable after selection and provide an announced, linked error summary."
+        ],
+        "conclusion": "The source review and planned checks identify barriers, but they do not establish WCAG conformance."
+      }
+    }
+  ]
+}

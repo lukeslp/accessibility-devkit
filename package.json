@@ -18,7 +18,7 @@
     "build": "pnpm --filter=\"./packages/*\" --parallel build",
     "lint": "eslint . --ext .ts,.tsx",
     "format": "prettier --write .",
-    "test": "pnpm --filter=\"./packages/*\" --parallel test",
+    "test": "node --test tests/plugin/accessibility-scenarios.test.mjs && pnpm --filter=\"./packages/*\" --parallel test",
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "pnpm build && changeset publish"

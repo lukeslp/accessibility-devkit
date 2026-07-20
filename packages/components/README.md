@@ -57,7 +57,7 @@ announceToScreenReader('3 results found');
 announceToScreenReader('Session expired. Please sign in again.', 'assertive');
 ```
 
-The live region is created once on first call and reused for all subsequent calls.
+The first call creates the live region; later calls reuse it.
 
 ### createSkipLink
 

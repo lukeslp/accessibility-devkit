@@ -40,7 +40,7 @@ The visible design looks tidy, but the control that submits the form is a generi
 | Semantics      | A clickable `div` does not carry the expected button behavior or name.                               | Use a native submit button.                                       |
 | Keyboard       | The action only listens for pointer clicks.                                                          | Let the form and native button handle Enter and Space.            |
 | Focus          | After an invalid submission, it is unclear where to continue.                                        | Move focus to the email field and expose the error there.         |
-| Error recovery | The error is detached from the field and gives no next step.                                         | Describe the format, connect the error, and keep the typed value. |
+| Error recovery | The error sits apart from the field and gives no next step.                                           | Describe the format, connect the error, and keep the typed value. |
 | Target size    | The action and link are too small for many people using touch, tremor-reducing settings, or a mouse. | Give both controls a 44 by 44 CSS-pixel minimum target.           |
 
 ## After
@@ -120,7 +120,7 @@ input:focus-visible {
 
 1. Tab to **Join the list** and press Enter or Space; tab to **More details** and activate it with Enter.
 2. Submit an empty or malformed address. Focus lands on the field, the error names the next action, and the typed address remains available to correct.
-3. Submit a valid address. The status message is announced without stealing focus.
+3. Submit a valid address. Confirm the screen reader announces the status without moving focus.
 4. At 200% zoom and on a touch device, confirm each action remains visibly focused and has a 44 by 44 CSS-pixel target.
 
 The changes live in the component people already use: HTML supplies the semantics, CSS preserves a visible focus cue and usable target size, and JavaScript supports recovery rather than replacing the interaction.

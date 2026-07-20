@@ -92,6 +92,28 @@ test('keeps plugin, skill, and package identifiers valid for the quick start', a
   assert.match(workspace.scripts.test, /tests\/docs\/adoption-quick-start\.test\.mjs/);
 });
 
+test('keeps canonical repository metadata accurate', async () => {
+  const canonical = 'https://github.com/lukeslp/accessibility-devkit';
+  const codex = JSON.parse(await read('.codex-plugin/plugin.json'));
+  const claude = JSON.parse(await read('.claude-plugin/plugin.json'));
+  const workspace = JSON.parse(await read('package.json'));
+  const packages = await Promise.all(
+    ['audit', 'components', 'accommodations'].map(async (name) =>
+      JSON.parse(await read(`packages/${name}/package.json`)),
+    ),
+  );
+
+  assert.equal(codex.repository, canonical);
+  assert.equal(claude.repository, canonical);
+  assert.equal(workspace.repository.url, `git+${canonical}.git`);
+  assert.equal(codex.interface.privacyPolicyURL, undefined);
+  assert.equal(codex.interface.termsOfServiceURL, undefined);
+  for (const packageManifest of packages) {
+    assert.equal(packageManifest.repository.url, `git+${canonical}.git`);
+    assert.match(packageManifest.homepage, /\/tree\/master\/packages\//);
+  }
+});
+
 test('runs a reproducible spelling check for the adoption documentation', async () => {
   const workspace = JSON.parse(await read('package.json'));
   const cspell = JSON.parse(await read('cspell.json'));

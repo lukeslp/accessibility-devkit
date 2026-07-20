@@ -1,6 +1,6 @@
 # The Layered Approach
 
-The Accessibility Devkit is organized into three distinct layers. Each layer addresses a different aspect of the accessibility challenge, and they are designed to work together or independently.
+Accessibility Devkit has three layers. Each addresses a different part of implementation and can work alone or with the others.
 
 ## Layer 1: Testing and Auditing (`@accessibility-devkit/audit`)
 

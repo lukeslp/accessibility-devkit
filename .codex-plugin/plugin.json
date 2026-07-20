@@ -30,8 +30,6 @@
       "Write"
     ],
     "websiteURL": "https://github.com/lukeslp/accessibility-devkit#readme",
-    "privacyPolicyURL": "https://github.com/lukeslp/accessibility-devkit/blob/master/LICENSE",
-    "termsOfServiceURL": "https://github.com/lukeslp/accessibility-devkit/blob/master/LICENSE",
     "defaultPrompt": [
       "Review this interface for accessibility barriers",
       "Fix keyboard and focus behavior in this component",

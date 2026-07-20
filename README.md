@@ -6,7 +6,7 @@
 
 Not another overlay widget. Not a snippet pack. This is a collection of code-level tools, interaction patterns, and runtime utilities for building accessible applications from the ground up.
 
-Accessibility technical debt compounds fast. It's expensive to retrofit, and it locks real people out of what you built. Building it in from the start is easier than fixing it later — and it's the right thing to do.
+Accessibility technical debt compounds fast. It's expensive to retrofit, and it locks real people out of what you built. Building it in from the start is easier than fixing it later. It's also the right thing to do.
 
 Three packages, all framework-agnostic TypeScript, all mapped to specific WCAG 2.x success criteria.
 
@@ -82,10 +82,10 @@ Claude Code uses its own marketplace commands. Run these in Claude Code, then us
 Runs axe-core accessibility audits and formats the results. Fits into CI pipelines, PR workflows, or one-off spot checks.
 
 - **axe-core runner** with configurable WCAG conformance level (A, AA, or AAA)
-- **Scoped audits** — include or exclude specific selectors to audit one section at a time
-- **Structured results** — violations come back with severity counts (critical, serious, moderate, minor), not just pass/fail
+- **Scoped audits**: include or exclude selectors to audit one section at a time
+- **Structured results**: violations include severity counts (critical, serious, moderate, minor), not just pass/fail
 - **Three report formats**: plain text for the console, markdown for docs and PRs, JSON for pipelines
-- **ESLint flat-config** for jsx-a11y — drop it into `eslint.config.js` and every JSX accessibility rule surfaces as a warning during development without blocking builds
+- **ESLint flat-config** for jsx-a11y: add it to `eslint.config.js` to surface JSX accessibility rules as warnings without blocking builds
 
 ```ts
 import { runAudit, formatReport } from '@accessibility-devkit/audit';
@@ -105,14 +105,14 @@ const scoped = await runAudit('#main-content', {
 
 ### [@accessibility-devkit/components](./packages/components)
 
-Accessible UI primitives — the interaction patterns that are tedious to get right and painful to get wrong.
+Accessible UI primitives cover interaction patterns that are tedious to get right and painful to get wrong.
 
-- **FocusTrap** — confines keyboard focus to a container (modals, drawers, off-canvas panels). Supports initial focus targeting, pause/unpause for nested modals, and focus restoration on deactivation
-- **Roving Tabindex** — arrow key navigation within composite widgets (toolbars, tab lists, radio groups, menus). Tab exits the group. Handles wrap-around. Returns a cleanup function
-- **Screen Reader Announcements** — posts messages to an ARIA live region. Polite for status updates, assertive for errors. Creates the region once, reuses it
-- **Skip Link** — visually hidden, appears on keyboard focus, jumps past navigation to main content
-- **AccessibleDialog** — wraps `<dialog>` or `role="dialog"` elements with focus trapping, ARIA attributes, and Escape-key dismissal
-- **AccessibleMenu** — disclosure-style dropdown: trigger gets `aria-haspopup` and `aria-expanded`, arrow keys navigate items, Escape closes, click-outside dismisses
+- **FocusTrap** confines keyboard focus to a container such as a modal or drawer. It supports initial focus targeting, pause and resume for nested modals, and focus restoration on deactivation
+- **Roving Tabindex** adds arrow-key navigation to composite widgets such as toolbars, tab lists, radio groups, and menus. Tab exits the group. Wrap-around and cleanup are built in
+- **Screen Reader Announcements** post messages to an ARIA live region. Use polite updates for status and assertive updates for errors. The utility creates one region and reuses it
+- **Skip Link** stays visually hidden until keyboard focus, then jumps past navigation to main content
+- **AccessibleDialog** wraps `<dialog>` or `role="dialog"` elements with focus trapping, ARIA attributes, and Escape-key dismissal
+- **AccessibleMenu** provides a disclosure-style dropdown with expanded state, arrow-key navigation, Escape handling, and outside-click dismissal
 
 ```ts
 import {
@@ -139,11 +139,11 @@ announceToScreenReader('Session expired. Please sign in again.', 'assertive');
 
 Color perception, contrast math, and user preference detection.
 
-- **Color blindness simulation** — transforms any hex color as seen under 7 vision deficiency types: protanopia, deuteranopia, tritanopia (complete), protanomaly, deuteranomaly, tritanomaly (partial), and achromatopsia (full monochromacy)
-- **Contrast ratio calculation** — WCAG relative luminance math, returns a value between 1 (no contrast) and 21 (black on white)
-- **WCAG threshold checking** — pass/fail for AA or AAA on normal or large text (AA normal = 4.5:1, AA large = 3:1, AAA normal = 7:1, AAA large = 4.5:1)
-- **Automatic color adjustment** — give it a failing foreground/background pair and a target level, it darkens then lightens until it passes
-- **Preference detection** — `prefersReducedMotion()`, `prefersHighContrast()`, `prefersDarkMode()`, plus `watchPrefersReducedMotion()` which subscribes to live changes and returns an unsubscribe function
+- **Color blindness simulation** transforms any hex color across seven color-vision deficiency types: protanopia, deuteranopia, tritanopia, protanomaly, deuteranomaly, tritanomaly, and achromatopsia
+- **Contrast ratio calculation** applies WCAG relative-luminance math and returns a value from 1 (no contrast) to 21 (black on white)
+- **WCAG threshold checking** returns pass or fail for AA or AAA on normal or large text (AA normal = 4.5:1, AA large = 3:1, AAA normal = 7:1, AAA large = 4.5:1)
+- **Automatic color adjustment** takes a failing foreground and background pair, then darkens or lightens the foreground until it reaches the requested level
+- **Preference detection** includes `prefersReducedMotion()`, `prefersHighContrast()`, `prefersDarkMode()`, and a live `watchPrefersReducedMotion()` subscription with cleanup
 
 ```ts
 import {
@@ -200,7 +200,7 @@ pnpm release     # Build and publish
 
 | Project                                                                         | What it does                                                                                                     |
 | ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| [accessibility-devkit-llm](https://github.com/lukeslp/accessibility-devkit-llm) | Language model extension — alt text generation, WCAG auditing with LLMs, MCP server, and agent skill definitions |
+| [accessibility-devkit-llm](https://github.com/lukeslp/accessibility-devkit-llm) | Language model extension for alt text generation, WCAG auditing with LLMs, an MCP server, and skill definitions |
 | [awesome-accessibility](https://github.com/lukeslp/awesome-accessibility)       | Curated list of accessibility resources and tools                                                                |
 | [accessibility-atlas](https://github.com/lukeslp/accessibility-atlas)           | 53 datasets on disability demographics, web accessibility, and assistive technology usage                        |
 

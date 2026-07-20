@@ -84,7 +84,7 @@ export class FocusTrap {
  */
 export function createRovingTabindex(
   container: HTMLElement,
-  selector: string
+  selector: string,
 ): { destroy: () => void } {
   function getItems(): HTMLElement[] {
     return Array.from(container.querySelectorAll<HTMLElement>(selector));
@@ -172,7 +172,7 @@ function ensureLiveRegion(): HTMLElement {
  */
 export function announceToScreenReader(
   message: string,
-  politeness: 'polite' | 'assertive' = 'polite'
+  politeness: 'polite' | 'assertive' = 'polite',
 ): void {
   const region = ensureLiveRegion();
   region.setAttribute('aria-live', politeness);
@@ -200,10 +200,7 @@ export function announceToScreenReader(
  * document.body.insertBefore(createSkipLink('main-content'), document.body.firstChild);
  * ```
  */
-export function createSkipLink(
-  targetId: string,
-  text = 'Skip to main content'
-): HTMLAnchorElement {
+export function createSkipLink(targetId: string, text = 'Skip to main content'): HTMLAnchorElement {
   const link = document.createElement('a');
   link.href = `#${targetId}`;
   link.textContent = text;
@@ -334,15 +331,23 @@ export class AccessibleDialog {
 export class AccessibleMenu {
   private trigger: HTMLElement;
   private menu: HTMLElement;
+  private itemSelector: string;
   private roving: { destroy: () => void } | null = null;
+  private onTriggerClick = (): void => this.toggle();
+  private onDocumentKeyDown = (event: KeyboardEvent): void => {
+    if (event.key === 'Escape' && this.isOpen()) this.close();
+  };
+  private onDocumentClick = (event: MouseEvent): void => {
+    const target = event.target as Node;
+    if (this.isOpen() && !this.trigger.contains(target) && !this.menu.contains(target)) {
+      this.close();
+    }
+  };
 
-  constructor(
-    trigger: HTMLElement,
-    menu: HTMLElement,
-    itemSelector = '[role="menuitem"]'
-  ) {
+  constructor(trigger: HTMLElement, menu: HTMLElement, itemSelector = '[role="menuitem"]') {
     this.trigger = trigger;
     this.menu = menu;
+    this.itemSelector = itemSelector;
 
     this.trigger.setAttribute('aria-haspopup', 'true');
     this.trigger.setAttribute('aria-expanded', 'false');
@@ -351,18 +356,9 @@ export class AccessibleMenu {
 
     this.roving = createRovingTabindex(menu, itemSelector);
 
-    this.trigger.addEventListener('click', () => this.toggle());
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.isOpen()) this.close();
-    });
-
-    document.addEventListener('click', (e) => {
-      const target = e.target as Node;
-      if (!this.trigger.contains(target) && !this.menu.contains(target)) {
-        this.close();
-      }
-    });
+    this.trigger.addEventListener('click', this.onTriggerClick);
+    document.addEventListener('keydown', this.onDocumentKeyDown);
+    document.addEventListener('click', this.onDocumentClick);
   }
 
   /** Returns true if the menu is currently visible. */
@@ -379,7 +375,7 @@ export class AccessibleMenu {
   open(): void {
     this.menu.hidden = false;
     this.trigger.setAttribute('aria-expanded', 'true');
-    const firstItem = this.menu.querySelector<HTMLElement>('[role="menuitem"]');
+    const firstItem = this.menu.querySelector<HTMLElement>(this.itemSelector);
     firstItem?.focus();
   }
 
@@ -393,5 +389,8 @@ export class AccessibleMenu {
   /** Remove all event listeners added by this instance. */
   destroy(): void {
     this.roving?.destroy();
+    this.trigger.removeEventListener('click', this.onTriggerClick);
+    document.removeEventListener('keydown', this.onDocumentKeyDown);
+    document.removeEventListener('click', this.onDocumentClick);
   }
 }

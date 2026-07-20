@@ -32,7 +32,7 @@
   "bugs": {
     "url": "https://github.com/lukeslp/accessibility-devkit/issues"
   },
-  "homepage": "https://github.com/lukeslp/accessibility-devkit/tree/main/packages/audit#readme",
+  "homepage": "https://github.com/lukeslp/accessibility-devkit/tree/master/packages/audit#readme",
   "dependencies": {
     "axe-core": "^4.8.4",
     "eslint-plugin-jsx-a11y": "^6.8.0"

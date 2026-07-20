@@ -1,6 +1,6 @@
 # Accessibility Devkit Project Conventions
 
-This document outlines the architectural and stylistic conventions for the `accessibility-devkit` family of projects. Adhering to these conventions ensures consistency, maintainability, and a cohesive developer experience across the ecosystem.
+These conventions keep the Accessibility Devkit packages consistent and easy to maintain.
 
 ## 1. Naming Conventions
 
@@ -9,16 +9,15 @@ This document outlines the architectural and stylistic conventions for the `acce
 - **Core Toolkit:** `accessibility-devkit`
 - **Extensions:** `accessibility-devkit-<area>` (e.g., `accessibility-devkit-llm`, `accessibility-devkit-mobile`)
 
-### 1.2. NPM Packages
+### 1.2. npm packages
 
-All packages will be scoped under `@accessibility-devkit`.
+Packages use the `@accessibility-devkit` scope.
 
-- **Core/Main Package:** `@accessibility-devkit/core` (if a primary, framework-agnostic package exists)
-- **Sub-packages:** `@accessibility-devkit/<name>` (e.g., `@accessibility-devkit/audit`, `@accessibility-devkit/components`, `@accessibility-devkit/react`, `@accessibility-devkit/llm`)
+- **Packages:** `@accessibility-devkit/<name>` (for example, `audit`, `components`, and `accommodations`)
 
 ## 2. Repository Structure
 
-The project will be structured as a monorepo managed by a workspace tool like pnpm, Lerna, or Turborepo.
+pnpm manages the monorepo.
 
 ```plaintext
 accessibility-devkit/
@@ -26,7 +25,7 @@ accessibility-devkit/
 ├── README.md              # High-level project overview
 ├── LICENSE                  # MIT License
 ├── package.json             # Root package.json for the workspace
-├── .eslintrc.js             # Base ESLint config
+├── .eslintrc.cjs            # Base ESLint config
 ├── .prettierrc.json         # Prettier config
 ├── tsconfig.base.json       # Base TypeScript config
 ├── packages/                # Directory for all individual NPM packages
@@ -37,10 +36,7 @@ accessibility-devkit/
 │   │   └── README.md
 │   └── components/          # Example: @accessibility-devkit/components
 │       └── ...
-├── configs/                 # Shared configurations (e.g., Jest, Storybook)
-├── examples/                # Usage examples for different frameworks
-│   ├── react-app/
-│   └── vanilla-js/
+├── examples/                # Reviewed usage examples
 └── docs/                    # Conceptual documentation
     ├── 01-philosophy.md
     ├── 02-why-not-overlays.md
@@ -49,21 +45,22 @@ accessibility-devkit/
 
 ## 3. Coding Style & Tooling
 
-- **Language:** TypeScript will be used for all packages.
-- **Style:** [Prettier](https://prettier.io/) will be used for automatic code formatting. A `.prettierrc.json` file will be present at the root.
-- **Linting:** [ESLint](https://eslint.org/) will be used for static analysis. A base `.eslintrc.js` will be at the root, with packages extending it as needed.
-- **Build Tool:** `tsup` or a similar modern bundler will be used to compile TypeScript for each package.
+- **Language:** Packages use TypeScript.
+- **Style:** [Prettier](https://prettier.io/) formats source and test files from the root `.prettierrc.json`.
+- **Linting:** [ESLint](https://eslint.org/) runs from `.eslintrc.cjs`.
+- **Build:** `tsup` produces CommonJS, ECMAScript module, and TypeScript declaration output.
+- **Tests:** Vitest runs package tests; jsdom supplies browser APIs where needed.
 
 ## 4. Documentation
 
-- **Root `README.md`:** Provides a high-level overview of the entire `accessibility-devkit` project, its philosophy, and a guide to the packages within.
-- **Package `README.md`:** Each package in the `packages/` directory must have its own `README.md` detailing its specific purpose, API, and usage examples.
-- **`docs/` Directory:** Contains long-form conceptual documentation, including the project's philosophy, architectural decisions (e.g., why it's not an overlay), and guides on accessibility best practices.
-- **API Documentation:** TypeDoc or a similar tool will be used to generate API documentation from TSDoc comments.
+- **Root `README.md`:** Explains installation, the plugin workflow, and the package map.
+- **Package `README.md`:** Documents each package's purpose, API, and examples.
+- **`docs/`:** Holds the project philosophy and architectural decisions.
+- **Code examples:** Keep examples executable or pair them with an explicit verification procedure.
 
 ## 5. Commit Messages
 
-All commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification. This facilitates automated changelog generation and versioning.
+Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) so Changesets can produce useful release history.
 
 - **`feat:`** A new feature
 - **`fix:`** A bug fix
@@ -76,5 +73,5 @@ All commit messages must follow the [Conventional Commits](https://www.conventio
 
 ## 6. Versioning & Publishing
 
-- **Tool:** [Changesets](https://github.com/changesets/changesets) is the preferred tool for managing versioning and publishing of packages in the monorepo.
-- **Process:** When making a change that should trigger a package version bump, a developer will run `pnpm changeset` and fill out the prompt. This creates a markdown file that will be committed and later used to automate the release process.
+- **Tool:** [Changesets](https://github.com/changesets/changesets) manages package versions and release notes.
+- **Process:** Run `pnpm changeset` for changes that require a package release. Commit the generated file with the implementation.

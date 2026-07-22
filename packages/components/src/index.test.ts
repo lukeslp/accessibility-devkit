@@ -1,6 +1,6 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { AccessibleMenu } from './index';
+import { AccessibleDialog, AccessibleMenu } from './index';
 
 describe('AccessibleMenu', () => {
   let trigger: HTMLButtonElement;
@@ -62,5 +62,23 @@ describe('AccessibleMenu', () => {
 
     expect(menu.isOpen()).toBe(true);
     expect(document.activeElement).toBe(outsideButton);
+  });
+});
+
+describe('AccessibleDialog', () => {
+  afterEach(() => {
+    document.body.innerHTML = '';
+  });
+
+  it('removes its document keydown listener when destroyed', () => {
+    document.body.innerHTML = '<div id="dialog"><button data-dialog-close>Close</button></div>';
+    const element = document.querySelector<HTMLDivElement>('#dialog')!;
+    const removeSpy = vi.spyOn(document, 'removeEventListener');
+
+    const dialog = new AccessibleDialog(element);
+    dialog.destroy();
+
+    expect(removeSpy).toHaveBeenCalledWith('keydown', expect.any(Function));
+    removeSpy.mockRestore();
   });
 });

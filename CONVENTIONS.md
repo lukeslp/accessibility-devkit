@@ -7,7 +7,7 @@ These conventions keep the Accessibility Devkit packages consistent and easy to 
 ### 1.1. Repositories
 
 - **Core Toolkit:** `accessibility-devkit`
-- **Extensions:** `accessibility-devkit-<area>` (e.g., `accessibility-devkit-llm`, `accessibility-devkit-mobile`)
+- **Extensions:** `accessibility-devkit-<area>` (e.g., `accessibility-devkit-mobile`)
 
 ### 1.2. npm packages
 

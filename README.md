@@ -81,11 +81,12 @@ Two entry points, depending on how you work.
 
 **Working with an agent (Claude Code, Codex).** Install the plugin above and run the first prompt. The `accessibility` skill reviews your interface, and when the project has a clear shape it hands off to a specialist that re-weights the review for your context. Each specialist keeps the same evidence and verification discipline; it just changes what to check first.
 
-| If you're building…                        | Specialist skill         | What it puts first                                                                  |
-| ------------------------------------------ | ------------------------ | ----------------------------------------------------------------------------------- |
-| A game or real-time interactive experience | `accessibility-gaming`   | Flash safety, input remapping, captions for audio cues, assist and difficulty modes |
-| Enterprise, SaaS, or internal tools        | `accessibility-business` | Forms, session timeouts, authentication, error recovery, conformance evidence       |
-| Visual design or a design system           | `accessibility-design`   | Color and contrast, typography, motion budgets, accessible component specs          |
+| If you're building…                        | Specialist skill         | What it puts first                                                                     |
+| ------------------------------------------ | ------------------------ | -------------------------------------------------------------------------------------- |
+| A game or real-time interactive experience | `accessibility-gaming`   | Flash safety, input remapping, captions for audio cues, assist and difficulty modes    |
+| Enterprise, SaaS, or internal tools        | `accessibility-business` | Forms, session timeouts, authentication, error recovery, conformance evidence          |
+| Visual design or a design system           | `accessibility-design`   | Color and contrast, typography, motion budgets, accessible component specs             |
+| A mobile or touch-first web app            | `accessibility-mobile`   | Target size, gesture alternatives, orientation and reflow, zoom, mobile screen readers |
 
 Ask for a specialist by name, or let the general skill route you. Design work also leans on the separate [`intentional-ux`](https://github.com/actually-useful-ai/intentional-ux) skill for flow and decision-cost questions.
 

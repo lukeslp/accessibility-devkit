@@ -10,7 +10,12 @@ async function read(relativePath) {
   return readFile(path.join(root, relativePath), 'utf8');
 }
 
-const SPECIALISTS = ['accessibility-gaming', 'accessibility-business', 'accessibility-design'];
+const SPECIALISTS = [
+  'accessibility-gaming',
+  'accessibility-business',
+  'accessibility-design',
+  'accessibility-mobile',
+];
 
 test('every specialist skill has valid frontmatter and the required sections', async () => {
   for (const name of SPECIALISTS) {

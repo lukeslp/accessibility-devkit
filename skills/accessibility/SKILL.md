@@ -36,6 +36,7 @@ When the project has a strong domain shape, apply the matching specialist lens o
 - **`accessibility-gaming`** — games and real-time interactive experiences: photosensitivity and flash safety, input remapping, captions for audio cues, assist and difficulty modes.
 - **`accessibility-business`** — enterprise and SaaS: long forms, data tables, session timeouts, authentication, error recovery, and procurement or conformance evidence.
 - **`accessibility-design`** — visual design and design systems: color and contrast, non-color cues, typography and text spacing, motion budgets, and accessible component specs.
+- **`accessibility-mobile`** — mobile and touch web: target size and spacing, gesture alternatives, orientation and reflow, pinch-zoom, on-screen keyboards, and mobile screen readers.
 
 Pick the specialist that fits what is being built; use this general skill directly when none clearly applies.
 

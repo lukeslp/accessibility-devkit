@@ -8,7 +8,7 @@ Not another overlay widget. Not a snippet pack. This is a collection of code-lev
 
 Accessibility technical debt compounds fast. It's expensive to retrofit, and it locks real people out of what you built. Building it in from the start is easier than fixing it later. It's also the right thing to do.
 
-Eight packages, all framework-agnostic TypeScript, all mapped to specific WCAG 2.x success criteria. They span motor, cognitive, sensory, literacy, and vestibular access — not just the visual and structural checks most tools stop at.
+Eight packages of framework-agnostic TypeScript, each mapped to specific WCAG 2.x success criteria. Most tools cover visual and structural access, then stop. These go further, into motor, cognitive, sensory, literacy, and vestibular access.
 
 ---
 

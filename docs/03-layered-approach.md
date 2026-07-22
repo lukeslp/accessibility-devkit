@@ -28,7 +28,7 @@ Use this layer when building custom interactive components like modals, dropdown
 
 ## Layer 3: Accommodations by disability domain
 
-This layer addresses specific disability needs that go beyond structural accessibility. Most accessibility tooling stops at visual and structural checks; this layer deliberately covers motor, cognitive, sensory, literacy, and vestibular access as well. It is a family of small, framework-agnostic packages, each mapped to the WCAG success criteria it serves.
+This layer addresses specific disability needs that go beyond structural accessibility. Most accessibility tooling stops at visual and structural checks. This layer also covers motor, cognitive, sensory, literacy, and vestibular access. It is a family of small, framework-agnostic packages, each mapped to the WCAG success criteria it serves.
 
 ### `@accessibility-devkit/accommodations`
 

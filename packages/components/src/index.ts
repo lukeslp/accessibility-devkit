@@ -254,6 +254,11 @@ export class AccessibleDialog {
   private element: HTMLElement;
   private trap: FocusTrap;
   private opts: Required<DialogOptions>;
+  private closeButton: Element | null = null;
+  private onDocumentKeyDown = (event: KeyboardEvent): void => {
+    if (event.key === 'Escape' && this.isOpen()) this.close();
+  };
+  private onCloseClick = (): void => this.close();
 
   constructor(element: HTMLElement, options: DialogOptions = {}) {
     this.element = element;
@@ -276,13 +281,11 @@ export class AccessibleDialog {
 
   private bindEvents(): void {
     if (this.opts.closeOnEscape) {
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && this.isOpen()) this.close();
-      });
+      document.addEventListener('keydown', this.onDocumentKeyDown);
     }
-    const closeBtn = this.element.querySelector(this.opts.closeSelector);
-    if (closeBtn) {
-      closeBtn.addEventListener('click', () => this.close());
+    this.closeButton = this.element.querySelector(this.opts.closeSelector);
+    if (this.closeButton) {
+      this.closeButton.addEventListener('click', this.onCloseClick);
     }
   }
 
@@ -305,6 +308,17 @@ export class AccessibleDialog {
     this.element.setAttribute('aria-hidden', 'true');
     this.trap.deactivate();
     this.opts.onClose();
+  }
+
+  /**
+   * Remove all event listeners added by this instance and deactivate the focus
+   * trap. Call this when the dialog element is discarded to avoid leaking the
+   * document-level keydown listener.
+   */
+  destroy(): void {
+    document.removeEventListener('keydown', this.onDocumentKeyDown);
+    this.closeButton?.removeEventListener('click', this.onCloseClick);
+    this.trap.deactivate();
   }
 }
 

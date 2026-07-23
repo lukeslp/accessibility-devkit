@@ -35,7 +35,7 @@ Every command accepts `--fail-on error|warning|never`. Exit `0` means the select
 - `cvi` adds individualized visual-complexity, salience, fatigue, clutter, motion, and multisensory review.
 - `all` adds both.
 
-No CVI palette or contrast ratio is treated as universally safe. Static target dimensions remain manual until rendered size, spacing, and exceptions are reviewed.
+Never treat a CVI palette or contrast ratio as universally safe. Treat static target dimensions as manual clues until someone reviews rendered size, spacing, and exceptions.
 
 Live URLs require a browser and assistive-technology follow-up. Use the maintained browser runner:
 

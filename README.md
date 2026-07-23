@@ -5,7 +5,7 @@
 
 Accessibility is the distance between intention and outcome. Accessibility Devkit helps shorten that distance with portable checks, focused browser utilities, and a review workflow that says exactly what still needs a browser, assistive technology, or a person.
 
-It is not an overlay and it does not produce an accessibility score. A clean result means no covered issue was detected. It never means a product is accessible without the remaining verification.
+Accessibility Devkit ships no overlay and assigns no accessibility score. A clean result only means the covered checks found nothing. You still need the listed browser, assistive-technology, and human verification.
 
 ## Start in a minute
 
@@ -207,7 +207,7 @@ A release review should combine:
 6. Switch Control for switch-critical paths.
 7. Human testing, including an individual CVI profile when CVI claims matter.
 
-Record what was completed, what remains unverified, and what the evidence actually supports.
+Record completed checks, open verification, and only the claims the evidence supports.
 
 ## v1.0 to v1.1 migration
 

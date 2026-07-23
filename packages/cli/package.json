@@ -6,7 +6,7 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "bin": {
-    "accessibility-devkit": "./dist/cli.mjs"
+    "accessibility-devkit": "dist/cli.mjs"
   },
   "exports": {
     ".": {

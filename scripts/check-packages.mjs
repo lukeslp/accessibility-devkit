@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { readdirSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -39,6 +39,12 @@ for (const directory of readdirSync(packagesDirectory, { withFileTypes: true }))
   if (result.name === '@accessibility-devkit/cli') {
     assert.ok(files.has('dist/cli.mjs'), 'CLI tarball is missing its executable');
     assert.ok(files.has('dist/cli.mjs.map'), 'CLI tarball is missing its executable source map');
+    const manifest = JSON.parse(readFileSync(path.join(packagePath, 'package.json'), 'utf8'));
+    assert.equal(
+      manifest.bin?.['accessibility-devkit'],
+      'dist/cli.mjs',
+      'CLI bin path must already use npm’s normalized form',
+    );
   }
   process.stdout.write(`checked ${result.name}@${result.version}\n`);
 }

@@ -190,7 +190,7 @@ test('runs a reproducible spelling check for the adoption documentation', async 
 
   assert.match(
     workspace.scripts.spelling,
-    /^cspell --config cspell\.json README\.md examples\/accessible-component-review\.md$/,
+    /^cspell --config cspell\.json README\.md examples\/accessible-component-review\.md skills\/accessibility\/references\/\*\.md$/,
   );
   assert.match(workspace.scripts.test, /pnpm spelling &&/);
   assert.ok(cspell.words.includes('Codex'));

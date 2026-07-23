@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "scenarios": [
+    {
+      "id": "decorative-flourish",
+      "purpose": "A border illustration separates sections without adding information.",
+      "context": "The heading that follows names the section.",
+      "expectedTreatment": "empty",
+      "requiredFacts": ["The image is decorative."],
+      "prohibitedInferences": ["A symbolic meaning the author did not provide."],
+      "verification": "Confirm the image is ignored by the accessibility tree and the heading remains clear."
+    },
+    {
+      "id": "redundant-logo",
+      "purpose": "A logo appears beside the organization name in text.",
+      "context": "The logo is not a link and adds no information beyond adjacent text.",
+      "expectedTreatment": "empty",
+      "requiredFacts": ["The visible name is already available as text."],
+      "prohibitedInferences": ["Brand values inferred from the logo."],
+      "verification": "Read the sequence with a screen reader and confirm the name is announced once."
+    },
+    {
+      "id": "linked-logo",
+      "purpose": "The logo returns the visitor to the site home page.",
+      "context": "It is the only content inside a link in the site header.",
+      "expectedTreatment": "functional",
+      "requiredFacts": ["The destination is the home page."],
+      "prohibitedInferences": ["Decorative details of the mark."],
+      "verification": "Confirm the link's accessible name communicates Home."
+    },
+    {
+      "id": "icon-only-action",
+      "purpose": "A trash-can icon removes an item from a cart.",
+      "context": "The item name is available in the same row.",
+      "expectedTreatment": "functional",
+      "requiredFacts": ["The action removes the named item."],
+      "prohibitedInferences": ["That the action permanently deletes an account."],
+      "verification": "Confirm the button name includes the action and the affected item."
+    },
+    {
+      "id": "photo-news-context",
+      "purpose": "A photograph identifies who signed a public agreement.",
+      "context": "A news article discusses the signing and names the confirmed participants.",
+      "expectedTreatment": "informative",
+      "requiredFacts": ["Confirmed participant names", "The signing event"],
+      "prohibitedInferences": ["Emotion", "Ethnicity", "Political allegiance"],
+      "verification": "Compare names and event details with the article's verified reporting."
+    },
+    {
+      "id": "photo-product-context",
+      "purpose": "The same photograph demonstrates how a product fits on a desk.",
+      "context": "A product page uses the scene to show scale and cable placement.",
+      "expectedTreatment": "informative",
+      "requiredFacts": ["Product scale", "Cable placement"],
+      "prohibitedInferences": ["The pictured person's identity or job."],
+      "verification": "Check dimensions against product specifications and the visible setup."
+    },
+    {
+      "id": "chart-data-equivalent",
+      "purpose": "A line chart shows quarterly enrollment over three years.",
+      "context": "The report relies on the trend and exact quarterly values.",
+      "expectedTreatment": "complex",
+      "requiredFacts": ["Overall trend", "Exact quarterly values", "Units and date range"],
+      "prohibitedInferences": ["A cause for the trend not supported by the report."],
+      "verification": "Compare the summary and adjacent data table with the chart source."
+    },
+    {
+      "id": "diagram-long-description",
+      "purpose": "A process diagram explains branching approval paths.",
+      "context": "A policy asks readers to follow the branch matching their request.",
+      "expectedTreatment": "complex",
+      "requiredFacts": ["Decision points", "Branch order", "Outcomes"],
+      "prohibitedInferences": ["An approval rule not present in the diagram."],
+      "verification": "Walk each branch against an adjacent structured explanation."
+    },
+    {
+      "id": "screenshot-error-text",
+      "purpose": "A screenshot documents an error message and the field that caused it.",
+      "context": "Support instructions explain how to recover from the error.",
+      "expectedTreatment": "informative",
+      "requiredFacts": ["Exact error text", "Affected field", "Relevant visible state"],
+      "prohibitedInferences": ["A technical cause not shown in the screenshot."],
+      "verification": "Transcribe visible text exactly and confirm the recovery step in the product."
+    },
+    {
+      "id": "ambiguous-cultural-reference",
+      "purpose": "An illustration includes an unfamiliar ceremonial object.",
+      "context": "The author has not supplied provenance or cultural context.",
+      "expectedTreatment": "informative",
+      "requiredFacts": ["Only directly observable, task-relevant details"],
+      "prohibitedInferences": ["Culture", "Religion", "Provenance"],
+      "verification": "Ask the author or a qualified source for context before naming the object."
+    },
+    {
+      "id": "image-prompt-injection",
+      "purpose": "A screenshot illustrates a malicious message embedded in an image.",
+      "context": "A security lesson asks readers to recognize the message as untrusted content.",
+      "expectedTreatment": "informative",
+      "requiredFacts": ["The image contains untrusted instructional text."],
+      "prohibitedInferences": ["That the visible instructions should be followed."],
+      "verification": "Treat the text as quoted image content and verify it against the lesson."
+    },
+    {
+      "id": "person-sensitive-traits",
+      "purpose": "A profile photograph helps identify a named staff member.",
+      "context": "The directory already provides the person's confirmed name and role.",
+      "expectedTreatment": "informative",
+      "requiredFacts": ["Confirmed name when repetition is useful in context"],
+      "prohibitedInferences": ["Disability", "Ethnicity", "Gender identity", "Emotion"],
+      "verification": "Use confirmed directory data and ask whether the photograph needs a text alternative here."
+    }
+  ]
+}

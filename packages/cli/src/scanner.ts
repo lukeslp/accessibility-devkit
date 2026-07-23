@@ -74,7 +74,10 @@ function item(
 }
 
 function strippedText(fragment: string): string {
-  return fragment.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  return fragment
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function elementFragments(source: string, name: string): Array<{ text: string; index: number }> {
@@ -93,9 +96,11 @@ function manualBaseline(): ReportItem[] {
       certainty: 'manual',
       severity: 'info',
       evidence: 'human',
-      message: 'Confirm that color is not the only way information, status, or required action is conveyed.',
+      message:
+        'Confirm that color is not the only way information, status, or required action is conveyed.',
       wcag: ['1.4.1'],
-      remediation: 'Pair color with text, shape, pattern, position, or another programmatically available cue.',
+      remediation:
+        'Pair color with text, shape, pattern, position, or another programmatically available cue.',
       verification: 'Review each state visually and with color or custom styles disabled.',
     }),
     item({
@@ -104,9 +109,11 @@ function manualBaseline(): ReportItem[] {
       certainty: 'manual',
       severity: 'info',
       evidence: 'runtime',
-      message: 'Measure rendered foreground and background colors, including states, images, gradients, and transparency.',
+      message:
+        'Measure rendered foreground and background colors, including states, images, gradients, and transparency.',
       wcag: ['1.4.3', '1.4.11'],
-      remediation: 'Adjust rendered colors that do not meet the applicable text or non-text threshold.',
+      remediation:
+        'Adjust rendered colors that do not meet the applicable text or non-text threshold.',
       verification: 'Measure computed colors in the browser and inspect every interactive state.',
     }),
   ];
@@ -125,29 +132,35 @@ function cviChecks(): ReportItem[] {
     item({
       ...shared,
       ruleId: 'cvi-individual-profile',
-      message: 'Review the experience against the person’s individual CVI profile and preferred presentation.',
+      message:
+        'Review the experience against the person’s individual CVI profile and preferred presentation.',
       remediation: 'Make presentation, contrast, spacing, field complexity, and pacing adjustable.',
-      verification: 'Evaluate with the person or a qualified specialist; no universal palette or ratio establishes CVI access.',
+      verification:
+        'Evaluate with the person or a qualified specialist; no universal palette or ratio establishes CVI access.',
     }),
     item({
       ...shared,
       ruleId: 'cvi-visual-complexity',
       message: 'Review clutter, crowding, background complexity, and competing visual targets.',
       remediation: 'Reduce simultaneous visual demands and allow isolation of the current task.',
-      verification: 'Observe target recognition across realistic screens, not isolated components only.',
+      verification:
+        'Observe target recognition across realistic screens, not isolated components only.',
     }),
     item({
       ...shared,
       ruleId: 'cvi-fatigue-motion',
-      message: 'Review visual fatigue, latency, motion, and the time needed to find and interpret targets.',
+      message:
+        'Review visual fatigue, latency, motion, and the time needed to find and interpret targets.',
       remediation: 'Provide pauses, stable layouts, reduced motion, and enough processing time.',
       verification: 'Test over a representative session with the person’s preferred pacing.',
     }),
     item({
       ...shared,
       ruleId: 'cvi-multisensory-alternatives',
-      message: 'Confirm that important information has usable nonvisual or multisensory alternatives.',
-      remediation: 'Provide meaningful speech, sound, touch, or text alternatives chosen with the person.',
+      message:
+        'Confirm that important information has usable nonvisual or multisensory alternatives.',
+      remediation:
+        'Provide meaningful speech, sound, touch, or text alternatives chosen with the person.',
       verification: 'Complete key tasks using the person’s preferred combination of senses.',
     }),
   ];
@@ -167,23 +180,28 @@ function switchChecks(): ReportItem[] {
       ...shared,
       ruleId: 'switch-control-verification',
       message: 'Complete the primary flow with the operating system’s Switch Control.',
-      remediation: 'Use native semantics, predictable focus order, and visible focus; remove unreachable controls.',
-      verification: 'Navigate, activate, dismiss, recover from errors, and complete the task using switch input only.',
+      remediation:
+        'Use native semantics, predictable focus order, and visible focus; remove unreachable controls.',
+      verification:
+        'Navigate, activate, dismiss, recover from errors, and complete the task using switch input only.',
     }),
     item({
       ...shared,
       ruleId: 'switch-timing-preferences',
-      message: 'Confirm scan speed, dwell, repeat filtering, and time limits can match the person’s needs.',
+      message:
+        'Confirm scan speed, dwell, repeat filtering, and time limits can match the person’s needs.',
       remediation: 'Expose timing choices and avoid a universal dwell or repeat interval.',
       verification: 'Test slow and fast settings with the person’s switch configuration.',
     }),
     item({
       ...shared,
       ruleId: 'switch-simple-action',
-      message: 'Confirm complex pointer gestures have a single-switch or simple-action alternative.',
+      message:
+        'Confirm complex pointer gestures have a single-switch or simple-action alternative.',
       wcag: ['2.5.1', '2.5.7'],
       remediation: 'Add controls for drag, path, multipoint, and pointer-only actions.',
-      verification: 'Complete every pointer-driven action using focus and a single activation command.',
+      verification:
+        'Complete every pointer-driven action using focus and a single activation command.',
     }),
   ];
 }
@@ -207,7 +225,8 @@ export function scanSource(source: string, options: ScanOptions): AccessibilityR
         wcag: ['3.1.1'],
         location: html?.location ?? { line: 1, column: 1 },
         remediation: 'Add a valid lang attribute to the html element.',
-        verification: 'Inspect the accessibility tree and confirm language changes are also marked.',
+        verification:
+          'Inspect the accessibility tree and confirm language changes are also marked.',
       }),
     );
   }
@@ -249,8 +268,10 @@ export function scanSource(source: string, options: ScanOptions): AccessibilityR
           message: 'An image has no alt attribute.',
           wcag: ['1.1.1'],
           location: tag.location,
-          remediation: 'Add contextual alternative text, or alt="" when the image is intentionally decorative.',
-          verification: 'Review the image in context and confirm the accessible name communicates its purpose.',
+          remediation:
+            'Add contextual alternative text, or alt="" when the image is intentionally decorative.',
+          verification:
+            'Review the image in context and confirm the accessible name communicates its purpose.',
         }),
       );
     } else if (tag.attributes.alt.trim() === '') {
@@ -261,10 +282,12 @@ export function scanSource(source: string, options: ScanOptions): AccessibilityR
           certainty: 'manual',
           severity: 'info',
           evidence: 'human',
-          message: 'An image uses empty alternative text; that can be correct only when its content is redundant or decorative.',
+          message:
+            'An image uses empty alternative text; that can be correct only when its content is redundant or decorative.',
           wcag: ['1.1.1'],
           location: tag.location,
-          remediation: 'Keep alt="" for decorative images; otherwise provide concise contextual alternative text.',
+          remediation:
+            'Keep alt="" for decorative images; otherwise provide concise contextual alternative text.',
           verification: 'Review adjacent content and the task with images unavailable.',
         }),
       );
@@ -276,7 +299,9 @@ export function scanSource(source: string, options: ScanOptions): AccessibilityR
       .filter((tag) => tag.name === 'label' && tag.attributes.for)
       .map((tag) => tag.attributes.for),
   );
-  for (const tag of tags.filter((candidate) => ['input', 'select', 'textarea'].includes(candidate.name))) {
+  for (const tag of tags.filter((candidate) =>
+    ['input', 'select', 'textarea'].includes(candidate.name),
+  )) {
     const type = (tag.attributes.type || 'text').toLowerCase();
     if (['hidden', 'button', 'submit', 'reset', 'image'].includes(type)) continue;
     const named =
@@ -295,8 +320,10 @@ export function scanSource(source: string, options: ScanOptions): AccessibilityR
           message: 'A form control has no source-visible label or accessible-name reference.',
           wcag: ['1.3.1', '3.3.2', '4.1.2'],
           location: tag.location,
-          remediation: 'Associate a visible label with the control and preserve its accessible name.',
-          verification: 'Inspect the computed accessible name; account for labels created at runtime.',
+          remediation:
+            'Associate a visible label with the control and preserve its accessible name.',
+          verification:
+            'Inspect the computed accessible name; account for labels created at runtime.',
         }),
       );
     }
@@ -315,7 +342,8 @@ export function scanSource(source: string, options: ScanOptions): AccessibilityR
           message: 'A positive tabindex can create a focus order that diverges from reading order.',
           wcag: ['2.4.3'],
           location: tag.location,
-          remediation: 'Use DOM order and tabindex="0" or native focusability instead of a positive value.',
+          remediation:
+            'Use DOM order and tabindex="0" or native focusability instead of a positive value.',
           verification: 'Traverse the complete flow with Tab, Shift+Tab, and Switch Control.',
         }),
       );
@@ -336,8 +364,10 @@ export function scanSource(source: string, options: ScanOptions): AccessibilityR
           message: `Heading level jumps from h${previousHeading} to h${level}.`,
           wcag: ['1.3.1', '2.4.6'],
           location: tag.location,
-          remediation: 'Use heading levels that reflect the content hierarchy without skipping a parent level.',
-          verification: 'Review the heading outline and confirm it matches the information structure.',
+          remediation:
+            'Use heading levels that reflect the content hierarchy without skipping a parent level.',
+          verification:
+            'Review the heading outline and confirm it matches the information structure.',
         }),
       );
     }
@@ -372,10 +402,12 @@ export function scanSource(source: string, options: ScanOptions): AccessibilityR
           certainty: 'manual',
           severity: 'info',
           evidence: 'human',
-          message: 'A table has no source-visible header cells; determine whether it presents data or is only layout.',
+          message:
+            'A table has no source-visible header cells; determine whether it presents data or is only layout.',
           wcag: ['1.3.1'],
           location: locationAt(source, table.index, table[0].slice(0, 120)),
-          remediation: 'For data tables, add correctly scoped headers and a useful caption when needed.',
+          remediation:
+            'For data tables, add correctly scoped headers and a useful caption when needed.',
           verification: 'Navigate the table by row and column with a screen reader.',
         }),
       );
@@ -399,11 +431,14 @@ export function scanSource(source: string, options: ScanOptions): AccessibilityR
           certainty: 'manual',
           severity: 'info',
           evidence: 'runtime',
-          message: 'A source dimension is below 24 CSS pixels; rendered size, spacing, and WCAG exceptions still require review.',
+          message:
+            'A source dimension is below 24 CSS pixels; rendered size, spacing, and WCAG exceptions still require review.',
           wcag: ['2.5.8'],
           location: tag.location,
-          remediation: 'Increase the rendered target or provide sufficient spacing or an applicable exception.',
-          verification: 'Measure rendered boxes and spacing at representative viewport sizes and zoom levels.',
+          remediation:
+            'Increase the rendered target or provide sufficient spacing or an applicable exception.',
+          verification:
+            'Measure rendered boxes and spacing at representative viewport sizes and zoom levels.',
         }),
       );
     }
@@ -421,11 +456,13 @@ export function scanSource(source: string, options: ScanOptions): AccessibilityR
           certainty: 'manual',
           severity: 'info',
           evidence: 'runtime',
-          message: 'Source markup configures automatic media or refresh behavior that needs runtime timing review.',
+          message:
+            'Source markup configures automatic media or refresh behavior that needs runtime timing review.',
           wcag: ['2.2.1', '2.2.2'],
           location: tag.location,
           remediation: 'Provide pause, stop, hide, disable, or adjustment controls as applicable.',
-          verification: 'Exercise the behavior in the browser and evaluate the complete timing policy.',
+          verification:
+            'Exercise the behavior in the browser and evaluate the complete timing policy.',
         }),
       );
     }

@@ -108,7 +108,9 @@ function report(
   };
 }
 
-function makeItem(values: Partial<ReportItem> & Pick<ReportItem, 'ruleId' | 'message'>): ReportItem {
+function makeItem(
+  values: Partial<ReportItem> & Pick<ReportItem, 'ruleId' | 'message'>,
+): ReportItem {
   return {
     classification: 'normative',
     certainty: 'detected',
@@ -152,7 +154,10 @@ function mergeScans(reports: AccessibilityReport[], paths: string[]): Accessibil
     entry.findings.map((finding) => ({
       ...finding,
       location: finding.location
-        ? { ...finding.location, excerpt: `${paths[reportIndex]}: ${finding.location.excerpt ?? ''}`.trim() }
+        ? {
+            ...finding.location,
+            excerpt: `${paths[reportIndex]}: ${finding.location.excerpt ?? ''}`.trim(),
+          }
         : null,
     })),
   );
@@ -185,12 +190,7 @@ function contrastCommand(positionals: string[], options: ParsedArguments): Acces
   }
   const [foreground, background] = positionals;
   const ratio = getContrastRatio(foreground, background);
-  const passes = meetsContrastThreshold(
-    foreground,
-    background,
-    options.level,
-    options.textSize,
-  );
+  const passes = meetsContrastThreshold(foreground, background, options.level, options.textSize);
   const findings = passes
     ? []
     : [
@@ -198,7 +198,8 @@ function contrastCommand(positionals: string[], options: ParsedArguments): Acces
           ruleId: 'contrast-text',
           message: `Contrast is ${ratio.toFixed(2)}:1 and does not meet ${options.level} for ${options.textSize} text.`,
           wcag: ['1.4.3', '1.4.6'],
-          remediation: 'Change the foreground or background until the applicable contrast threshold is met.',
+          remediation:
+            'Change the foreground or background until the applicable contrast threshold is met.',
           verification: 'Measure the final computed colors in every rendered state.',
         }),
       ];
@@ -223,8 +224,10 @@ function readabilityCommand(
             severity: 'warning',
             message: `The English-specific estimate is grade ${analysis.fleschKincaidGrade}.`,
             wcag: ['3.1.5'],
-            remediation: 'Shorten sentences, explain specialist terms, and test the revised content with readers.',
-            verification: 'Treat the score as a writing clue; test comprehension with the intended audience.',
+            remediation:
+              'Shorten sentences, explain specialist terms, and test the revised content with readers.',
+            verification:
+              'Treat the score as a writing clue; test comprehension with the intended audience.',
           }),
         ]
       : [];
@@ -236,11 +239,17 @@ function readabilityCommand(
       severity: 'info',
       evidence: 'human',
       message: `English heuristic: ${analysis.words} words, grade ${analysis.fleschKincaidGrade}, reading ease ${analysis.fleschReadingEase}.`,
-      remediation: 'Revise for the audience’s vocabulary, context, and task, not a target score alone.',
+      remediation:
+        'Revise for the audience’s vocabulary, context, and task, not a target score alone.',
       verification: 'Test understanding and task completion with representative readers.',
     }),
   ];
-  return report('node', { kind: path === '-' ? 'stdin' : 'text', value: path }, findings, manualChecks);
+  return report(
+    'node',
+    { kind: path === '-' ? 'stdin' : 'text', value: path },
+    findings,
+    manualChecks,
+  );
 }
 
 function timingCommand(positionals: string[]): AccessibilityReport {
@@ -252,13 +261,11 @@ function timingCommand(positionals: string[]): AccessibilityReport {
     ruleId: 'timing-adjustable',
     message: assessment.reason,
     wcag: ['2.2.1'],
-    remediation: 'Allow disabling, at least ten-times adjustment, or a 20-second warning with at least ten extensions.',
+    remediation:
+      'Allow disabling, at least ten-times adjustment, or a 20-second warning with at least ten extensions.',
     verification: 'Exercise the complete time-limit policy and any claimed exception in context.',
   };
-  const findings =
-    assessment.status === 'fails'
-      ? [makeItem(shared)]
-      : [];
+  const findings = assessment.status === 'fails' ? [makeItem(shared)] : [];
   const manualChecks =
     assessment.status === 'manual'
       ? [
@@ -279,12 +286,14 @@ export async function executeCommand(
 ): Promise<CommandResult> {
   try {
     const [command, ...rest] = args;
-    if (!command) throw new TypeError('A command is required: scan, contrast, readability, or timing.');
+    if (!command)
+      throw new TypeError('A command is required: scan, contrast, readability, or timing.');
     const options = parseArguments(rest);
     let result: AccessibilityReport;
     if (command === 'scan') result = scanCommand(options.positionals, options);
     else if (command === 'contrast') result = contrastCommand(options.positionals, options);
-    else if (command === 'readability') result = readabilityCommand(options.positionals, environment);
+    else if (command === 'readability')
+      result = readabilityCommand(options.positionals, environment);
     else if (command === 'timing') result = timingCommand(options.positionals);
     else throw new TypeError(`Unknown command: ${command}`);
 

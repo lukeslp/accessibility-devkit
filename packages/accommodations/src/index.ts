@@ -16,14 +16,12 @@ export {
   type TextSize,
 } from '@accessibility-devkit/core';
 
-export type ColorVisionDeficiency =
-  | 'protanopia'
-  | 'deuteranopia'
-  | 'tritanopia'
-  | 'achromatopsia';
+export type ColorVisionDeficiency = 'protanopia' | 'deuteranopia' | 'tritanopia' | 'achromatopsia';
 
 function channelToHex(channel: number): string {
-  return Math.max(0, Math.min(255, Math.round(channel))).toString(16).padStart(2, '0');
+  return Math.max(0, Math.min(255, Math.round(channel)))
+    .toString(16)
+    .padStart(2, '0');
 }
 
 /**

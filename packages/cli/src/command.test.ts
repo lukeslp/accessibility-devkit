@@ -17,13 +17,7 @@ function jsonResult(result: Awaited<ReturnType<typeof executeCommand>>) {
 
 describe('CLI command contract', () => {
   it('returns 1 for a contrast error and 0 when configured never to fail', async () => {
-    const failing = await executeCommand([
-      'contrast',
-      '#777777',
-      '#ffffff',
-      '--format',
-      'json',
-    ]);
+    const failing = await executeCommand(['contrast', '#777777', '#ffffff', '--format', 'json']);
     expect(failing.exitCode).toBe(1);
     expect(jsonResult(failing).findings[0].ruleId).toBe('contrast-text');
 

@@ -30,7 +30,17 @@ function nodeReport(extra = []) {
 function pythonReport(extra = []) {
   const result = spawnSync(
     'python3',
-    ['-m', 'accessibility_devkit', 'scan', fixture.pathname, '--profile', 'all', '--format', 'json', ...extra],
+    [
+      '-m',
+      'accessibility_devkit',
+      'scan',
+      fixture.pathname,
+      '--profile',
+      'all',
+      '--format',
+      'json',
+      ...extra,
+    ],
     { encoding: 'utf8', env: pythonEnvironment },
   );
   assert.equal(result.status, 1, result.stderr);
@@ -75,8 +85,14 @@ test('Node and Python scanners emit the same finding contract', () => {
 test('both scanners match the checked-in golden fixture', () => {
   for (const report of [nodeReport(), pythonReport()]) {
     assert.deepEqual(report.summary, golden.summary);
-    assert.deepEqual(report.findings.map(({ ruleId }) => ruleId), golden.findings);
-    assert.deepEqual(report.manualChecks.map(({ ruleId }) => ruleId), golden.manualChecks);
+    assert.deepEqual(
+      report.findings.map(({ ruleId }) => ruleId),
+      golden.findings,
+    );
+    assert.deepEqual(
+      report.manualChecks.map(({ ruleId }) => ruleId),
+      golden.manualChecks,
+    );
   }
 });
 

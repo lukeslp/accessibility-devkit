@@ -60,10 +60,10 @@ importers:
   packages/audit:
     dependencies:
       axe-core:
-        specifier: ^4.8.4
+        specifier: ^4.12.1
         version: 4.12.1
       eslint-plugin-jsx-a11y:
-        specifier: ^6.8.0
+        specifier: ^6.10.2
         version: 6.10.2(eslint@8.57.1)
     devDependencies:
       '@types/node':
@@ -93,8 +93,8 @@ importers:
   packages/components:
     dependencies:
       focus-trap:
-        specifier: ^7.5.4
-        version: 7.8.0
+        specifier: ^8.2.2
+        version: 8.2.2
     devDependencies:
       '@types/node':
         specifier: ^20.11.24
@@ -2352,10 +2352,10 @@ packages:
         integrity: sha512-PjDse7RzhcPkIJwy5t7KPWQSZ9cAbzQXcafsetQoD7sOJRQlGikNbx7yZp2OotDnJyrDcbyRq3Ttb18iYOqkxA==,
       }
 
-  focus-trap@7.8.0:
+  focus-trap@8.2.2:
     resolution:
       {
-        integrity: sha512-/yNdlIkpWbM0ptxno3ONTuf+2g318kh2ez3KSeZN5dZ8YC6AAmgeWz+GasYYiBJPFaYcSAPeu4GfhUaChzIJXA==,
+        integrity: sha512-qV0g8hRYBqgACcFOH3f9wXc4zPKhr/0z9RI2a6ZijZ72EeBi4g8oBy8zAWuUR1TsMpOzwpUMFvjdasrC41Joug==,
       }
 
   for-each@0.3.5:
@@ -5665,7 +5665,7 @@ snapshots:
 
   flatted@3.4.2: {}
 
-  focus-trap@7.8.0:
+  focus-trap@8.2.2:
     dependencies:
       tabbable: 6.5.0
 

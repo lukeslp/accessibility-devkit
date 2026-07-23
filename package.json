@@ -18,11 +18,18 @@
     "build": "pnpm --filter=\"./packages/*\" --parallel build",
     "lint": "eslint . --ext .ts,.tsx",
     "format": "prettier --write .",
-    "spelling": "cspell --config cspell.json README.md examples/accessible-component-review.md skills/accessibility/references/*.md",
-    "test": "pnpm spelling && node --test tests/plugin/accessibility-scenarios.test.mjs tests/plugin/alt-text-guidance.test.mjs tests/plugin/specialists.test.mjs tests/docs/adoption-quick-start.test.mjs && pnpm --filter=\"./packages/*\" --parallel test",
+    "format:check": "prettier --check .",
+    "spelling": "cspell --config cspell.json README.md SECURITY.md THIRD_PARTY_NOTICES.md docs/*.md examples/*.md packages/*/README.md python/README.md skills/accessibility/references/*.md",
+    "test:docs": "node --test tests/plugin/accessibility-scenarios.test.mjs tests/plugin/alt-text-guidance.test.mjs tests/plugin/specialists.test.mjs tests/docs/adoption-quick-start.test.mjs",
+    "test:packages": "pnpm --filter=\"./packages/*\" --parallel test",
+    "test:python": "/usr/bin/env PYTHONPATH=python/src python3 -m unittest discover -s python/tests -v",
+    "test:contracts": "node --test tests/contracts/report-parity.test.mjs",
+    "test:consumers": "node tests/consumers/esm.mjs && node tests/consumers/commonjs.cjs && tsc --noEmit -p tests/consumers/tsconfig.json",
+    "test:pack": "node scripts/check-packages.mjs",
+    "test": "pnpm build && pnpm spelling && pnpm test:docs && pnpm test:packages && pnpm test:python && pnpm test:contracts && pnpm test:consumers",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "pnpm build && changeset publish"
+    "release": "pnpm test && pnpm test:pack && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",

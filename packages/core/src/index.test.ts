@@ -15,9 +15,12 @@ describe('contrast', () => {
     expect(meetsContrastThreshold('#777', '#fff', 'AA', 'large')).toBe(true);
   });
 
-  it.each(['', '#12', '#abcd', '#gggggg', 'red', '#00000000'])('rejects invalid color %j', (color) => {
-    expect(() => getContrastRatio(color, '#fff')).toThrow(/hex color/i);
-  });
+  it.each(['', '#12', '#abcd', '#gggggg', 'red', '#00000000'])(
+    'rejects invalid color %j',
+    (color) => {
+      expect(() => getContrastRatio(color, '#fff')).toThrow(/hex color/i);
+    },
+  );
 
   it('finds the nearest grayscale adjustment that passes', () => {
     const result = findNearestPassingColor('#aaaaaa', '#ffffff');
@@ -61,15 +64,16 @@ describe('time-limit assessment', () => {
   });
 
   it('checks the warning and extension boundaries together', () => {
-    expect(
-      assessTimeLimit({ warningDurationMs: 19_999, extensionCount: 10 }),
-    ).toMatchObject({ status: 'fails' });
-    expect(
-      assessTimeLimit({ warningDurationMs: 20_000, extensionCount: 9 }),
-    ).toMatchObject({ status: 'fails' });
-    expect(
-      assessTimeLimit({ warningDurationMs: 20_000, extensionCount: 10 }),
-    ).toMatchObject({ status: 'passes', satisfiedBy: 'extensions' });
+    expect(assessTimeLimit({ warningDurationMs: 19_999, extensionCount: 10 })).toMatchObject({
+      status: 'fails',
+    });
+    expect(assessTimeLimit({ warningDurationMs: 20_000, extensionCount: 9 })).toMatchObject({
+      status: 'fails',
+    });
+    expect(assessTimeLimit({ warningDurationMs: 20_000, extensionCount: 10 })).toMatchObject({
+      status: 'passes',
+      satisfiedBy: 'extensions',
+    });
   });
 
   it('routes essential and real-time exceptions to manual review', () => {

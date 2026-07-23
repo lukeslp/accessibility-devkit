@@ -11,7 +11,9 @@ const CONTRAST_THRESHOLDS: Record<ContrastLevel, Record<TextSize, number>> = {
 /** Convert a three- or six-digit hexadecimal color to RGB. */
 export function hexToRgb(color: string): [number, number, number] {
   if (!/^#?(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(color)) {
-    throw new TypeError(`Expected a three- or six-digit hex color; received ${JSON.stringify(color)}`);
+    throw new TypeError(
+      `Expected a three- or six-digit hex color; received ${JSON.stringify(color)}`,
+    );
   }
 
   const compact = color.replace(/^#/, '');
@@ -54,9 +56,7 @@ export function meetsContrastThreshold(
 }
 
 function rgbToHex(red: number, green: number, blue: number): string {
-  return `#${[red, green, blue]
-    .map((channel) => channel.toString(16).padStart(2, '0'))
-    .join('')}`;
+  return `#${[red, green, blue].map((channel) => channel.toString(16).padStart(2, '0')).join('')}`;
 }
 
 /**

@@ -55,7 +55,18 @@
     "item": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["ruleId", "classification", "certainty", "severity", "evidence", "message", "wcag", "location", "remediation", "verification"],
+      "required": [
+        "ruleId",
+        "classification",
+        "certainty",
+        "severity",
+        "evidence",
+        "message",
+        "wcag",
+        "location",
+        "remediation",
+        "verification"
+      ],
       "properties": {
         "ruleId": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
         "classification": { "enum": ["normative", "advisory", "supplemental"] },

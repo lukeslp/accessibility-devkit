@@ -3,7 +3,15 @@
   "version": "0.1.0",
   "description": "Utilities for motor and mobility accommodations: target size, pointer cancellation, drag and gesture alternatives, and tremor tolerance.",
   "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
   "files": [
     "dist"
   ],
@@ -29,13 +37,16 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lukeslp/accessibility-devkit.git",
+    "url": "git+https://github.com/actually-useful-ai/accessibility-devkit.git",
     "directory": "packages/motor"
   },
   "bugs": {
-    "url": "https://github.com/lukeslp/accessibility-devkit/issues"
+    "url": "https://github.com/actually-useful-ai/accessibility-devkit/issues"
   },
-  "homepage": "https://github.com/lukeslp/accessibility-devkit/tree/master/packages/motor#readme",
+  "homepage": "https://github.com/actually-useful-ai/accessibility-devkit/tree/main/packages/motor#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@types/node": "^20.11.24"
   }

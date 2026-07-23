@@ -2,11 +2,19 @@
 
 Utilities for reading level and literacy: readability scoring, plain-language flags, and abbreviation annotation. These support people with reading, language, and learning disabilities, and back the advisory reading-level guidance in WCAG 3.1.5.
 
-## Install
+## Build and test from source
+
+This package is source-only and not yet published to npm. Clone the repository and work with it through the pnpm workspace:
 
 ```bash
-npm install @accessibility-devkit/language
+git clone https://github.com/actually-useful-ai/accessibility-devkit.git
+cd accessibility-devkit
+pnpm install
+pnpm --filter @accessibility-devkit/language build
+pnpm --filter @accessibility-devkit/language test
 ```
+
+The examples below assume you are working from that cloned workspace.
 
 ## Readability Scores
 

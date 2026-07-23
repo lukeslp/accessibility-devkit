@@ -2,11 +2,19 @@
 
 Utilities for seizure and vestibular safety: gating animation on the reduced-motion preference, scrolling without motion sickness, and metering flash rate against the WCAG threshold. These protect people with vestibular disorders and photosensitive conditions.
 
-## Install
+## Build and test from source
+
+This package is source-only and not yet published to npm. Clone the repository and work with it through the pnpm workspace:
 
 ```bash
-npm install @accessibility-devkit/motion
+git clone https://github.com/actually-useful-ai/accessibility-devkit.git
+cd accessibility-devkit
+pnpm install
+pnpm --filter @accessibility-devkit/motion build
+pnpm --filter @accessibility-devkit/motion test
 ```
+
+The examples below assume you are working from that cloned workspace.
 
 ## Reduced Motion (WCAG 2.3.3)
 

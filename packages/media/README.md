@@ -2,11 +2,19 @@
 
 Utilities for auditory and media accessibility: caption and audio-description checks, autoplay-audio detection, transcript association, and an injected pause control. These support people who are Deaf or hard of hearing, and anyone disrupted by unexpected sound.
 
-## Install
+## Build and test from source
+
+This package is source-only and not yet published to npm. Clone the repository and work with it through the pnpm workspace:
 
 ```bash
-npm install @accessibility-devkit/media
+git clone https://github.com/actually-useful-ai/accessibility-devkit.git
+cd accessibility-devkit
+pnpm install
+pnpm --filter @accessibility-devkit/media build
+pnpm --filter @accessibility-devkit/media test
 ```
+
+The examples below assume you are working from that cloned workspace.
 
 ## Track Checks (WCAG 1.2.2 / 1.2.5)
 

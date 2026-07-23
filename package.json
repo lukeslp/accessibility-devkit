@@ -8,12 +8,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lukeslp/accessibility-devkit.git"
+    "url": "git+https://github.com/actually-useful-ai/accessibility-devkit.git"
   },
   "bugs": {
-    "url": "https://github.com/lukeslp/accessibility-devkit/issues"
+    "url": "https://github.com/actually-useful-ai/accessibility-devkit/issues"
   },
-  "homepage": "https://github.com/lukeslp/accessibility-devkit#readme",
+  "homepage": "https://github.com/actually-useful-ai/accessibility-devkit#readme",
   "scripts": {
     "build": "pnpm --filter=\"./packages/*\" --parallel build",
     "lint": "eslint . --ext .ts,.tsx",

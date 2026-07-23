@@ -2,11 +2,19 @@
 
 Utilities for disability accommodations: color blindness simulation, WCAG contrast math, and media-query watchers for user preferences.
 
-## Install
+## Build and test from source
+
+This package is source-only and not yet published to npm. Clone the repository and work with it through the pnpm workspace:
 
 ```bash
-npm install @accessibility-devkit/accommodations
+git clone https://github.com/actually-useful-ai/accessibility-devkit.git
+cd accessibility-devkit
+pnpm install
+pnpm --filter @accessibility-devkit/accommodations build
+pnpm --filter @accessibility-devkit/accommodations test
 ```
+
+The examples below assume you are working from that cloned workspace.
 
 ## Color Blindness Simulation
 

@@ -2,11 +2,19 @@
 
 Runs axe-core accessibility audits, formats results as text/JSON/markdown, and provides a pre-built ESLint flat-config for jsx-a11y.
 
-## Install
+## Build and test from source
+
+This package is source-only and not yet published to npm. Clone the repository and work with it through the pnpm workspace:
 
 ```bash
-npm install @accessibility-devkit/audit
+git clone https://github.com/actually-useful-ai/accessibility-devkit.git
+cd accessibility-devkit
+pnpm install
+pnpm --filter @accessibility-devkit/audit build
+pnpm --filter @accessibility-devkit/audit test
 ```
+
+The examples below assume you are working from that cloned workspace.
 
 ## Usage
 

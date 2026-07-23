@@ -3,7 +3,15 @@
   "version": "0.1.0",
   "description": "Utilities for reading level and literacy: readability scoring, plain-language flags, and abbreviation annotation.",
   "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
   "files": [
     "dist"
   ],
@@ -29,13 +37,16 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lukeslp/accessibility-devkit.git",
+    "url": "git+https://github.com/actually-useful-ai/accessibility-devkit.git",
     "directory": "packages/language"
   },
   "bugs": {
-    "url": "https://github.com/lukeslp/accessibility-devkit/issues"
+    "url": "https://github.com/actually-useful-ai/accessibility-devkit/issues"
   },
-  "homepage": "https://github.com/lukeslp/accessibility-devkit/tree/master/packages/language#readme",
+  "homepage": "https://github.com/actually-useful-ai/accessibility-devkit/tree/main/packages/language#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@types/node": "^20.11.24"
   }

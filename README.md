@@ -14,14 +14,14 @@ Eight packages of framework-agnostic TypeScript, each mapped to specific WCAG 2.
 
 ## Five-minute quick start
 
-The plugin is the quickest way to bring the review workflow into a task. The optional TypeScript packages below are separate: install them only when your application needs their runtime utilities.
+The plugin is the quickest way to bring the review workflow into a task. The optional TypeScript packages below are separate and currently available from this source workspace only.
 
 ### Codex desktop app
 
 1. Clone this repository and open it in the Codex desktop app.
 
    ```bash
-   git clone https://github.com/lukeslp/accessibility-devkit.git
+   git clone https://github.com/actually-useful-ai/accessibility-devkit.git
    ```
 
 2. Open **Plugins**, then the **Plugins Directory**. Use the marketplace import flow and select this repository’s `.claude-plugin/marketplace.json` file. Choose **Accessibility** and install it.
@@ -69,7 +69,7 @@ The guard catches both existing entries and broken symlinks before making a chan
 Claude Code uses its own marketplace commands. Run these in Claude Code, then use the same first prompt:
 
 ```text
-/plugin marketplace add lukeslp/accessibility-devkit
+/plugin marketplace add actually-useful-ai/accessibility-devkit
 /plugin install accessibility@accessibility-devkit
 ```
 
@@ -285,22 +285,19 @@ const meter = createFlashMeter({ onUnsafe: () => stopAnimation() });
 
 ---
 
-### Install packages
+### Build packages from source
 
-Install only the packages your application needs:
+The packages are source-only and not yet published to npm. Clone the repository and use its pnpm workspace to build and test them:
 
 ```bash
-npm install @accessibility-devkit/audit          # testing and auditing
-npm install @accessibility-devkit/components     # accessible UI primitives
-npm install @accessibility-devkit/accommodations # color, contrast, preferences, typography
-npm install @accessibility-devkit/motor          # target size, pointer, dragging, tremor
-npm install @accessibility-devkit/cognitive      # timeouts, redundant entry, auth, undo
-npm install @accessibility-devkit/language       # readability, plain language, abbreviations
-npm install @accessibility-devkit/media          # captions, transcripts, autoplay audio
-npm install @accessibility-devkit/motion         # reduced motion, safe scroll, flash safety
+git clone https://github.com/actually-useful-ai/accessibility-devkit.git
+cd accessibility-devkit
+pnpm install
+pnpm build
+pnpm test
 ```
 
-All packages ship CJS and ESM builds with full TypeScript declarations.
+The workspace build produces CommonJS and ESM output with TypeScript declarations. The import examples above assume you are working from that cloned workspace.
 
 ---
 
@@ -312,7 +309,6 @@ pnpm build       # Build all packages in parallel
 pnpm lint        # Lint
 pnpm test        # Run tests across all packages
 pnpm changeset   # Create a changeset for versioning
-pnpm release     # Build and publish
 ```
 
 ---

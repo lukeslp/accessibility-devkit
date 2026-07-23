@@ -2,11 +2,19 @@
 
 Utilities for cognitive accessibility: adjustable session timeouts with warnings, redundant-entry memory, accessible-authentication helpers, and an undo controller. These reduce time pressure, memory load, and the cost of mistakes for people with cognitive, learning, or attention-related disabilities.
 
-## Install
+## Build and test from source
+
+This package is source-only and not yet published to npm. Clone the repository and work with it through the pnpm workspace:
 
 ```bash
-npm install @accessibility-devkit/cognitive
+git clone https://github.com/actually-useful-ai/accessibility-devkit.git
+cd accessibility-devkit
+pnpm install
+pnpm --filter @accessibility-devkit/cognitive build
+pnpm --filter @accessibility-devkit/cognitive test
 ```
+
+The examples below assume you are working from that cloned workspace.
 
 ## Session Timeout (WCAG 2.2.1 / 2.2.6)
 

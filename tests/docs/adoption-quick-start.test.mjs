@@ -5,6 +5,17 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+const canonical = 'https://github.com/actually-useful-ai/accessibility-devkit';
+const packageNames = [
+  'audit',
+  'components',
+  'accommodations',
+  'motor',
+  'cognitive',
+  'language',
+  'media',
+  'motion',
+];
 
 async function read(relativePath) {
   return readFile(path.join(root, relativePath), 'utf8');
@@ -31,7 +42,10 @@ test('gives Codex desktop users a five-minute plugin quick start', async () => {
 test('offers a repository-backed direct skill fallback and separate Claude commands', async () => {
   const readme = await read('README.md');
 
-  assert.match(readme, /git clone https:\/\/github\.com\/lukeslp\/accessibility-devkit\.git/i);
+  assert.match(
+    readme,
+    /git clone https:\/\/github\.com\/actually-useful-ai\/accessibility-devkit\.git/i,
+  );
   assert.match(readme, /\.agents\/skills\/accessibility/);
   assert.match(readme, /target="\$HOME\/\.agents\/skills\/accessibility"/);
   assert.match(readme, /\[ -e "\$target" \] \|\| \[ -L "\$target" \]/);
@@ -39,7 +53,7 @@ test('offers a repository-backed direct skill fallback and separate Claude comma
   assert.match(readme, /remove only that entry with: rm/i);
   assert.match(readme, /different.*destination/i);
   assert.match(readme, /never overwrite.*nest/i);
-  assert.match(readme, /\/plugin marketplace add lukeslp\/accessibility-devkit/);
+  assert.match(readme, /\/plugin marketplace add actually-useful-ai\/accessibility-devkit/);
   assert.match(readme, /\/plugin install accessibility@accessibility-devkit/);
 });
 
@@ -71,9 +85,7 @@ test('keeps plugin, skill, and package identifiers valid for the quick start', a
   const skill = await read('skills/accessibility/SKILL.md');
   const workspace = JSON.parse(await read('package.json'));
   const packages = await Promise.all(
-    ['audit', 'components', 'accommodations'].map(async (name) =>
-      JSON.parse(await read(`packages/${name}/package.json`)),
-    ),
+    packageNames.map(async (name) => JSON.parse(await read(`packages/${name}/package.json`))),
   );
 
   assert.equal(codex.name, 'accessibility');
@@ -83,24 +95,17 @@ test('keeps plugin, skill, and package identifiers valid for the quick start', a
   assert.match(skill, /^---\nname: accessibility\ndescription: /);
   assert.deepEqual(
     packages.map(({ name }) => name),
-    [
-      '@accessibility-devkit/audit',
-      '@accessibility-devkit/components',
-      '@accessibility-devkit/accommodations',
-    ],
+    packageNames.map((name) => `@accessibility-devkit/${name}`),
   );
   assert.match(workspace.scripts.test, /tests\/docs\/adoption-quick-start\.test\.mjs/);
 });
 
 test('keeps canonical repository metadata accurate', async () => {
-  const canonical = 'https://github.com/lukeslp/accessibility-devkit';
   const codex = JSON.parse(await read('.codex-plugin/plugin.json'));
   const claude = JSON.parse(await read('.claude-plugin/plugin.json'));
   const workspace = JSON.parse(await read('package.json'));
   const packages = await Promise.all(
-    ['audit', 'components', 'accommodations'].map(async (name) =>
-      JSON.parse(await read(`packages/${name}/package.json`)),
-    ),
+    packageNames.map(async (name) => JSON.parse(await read(`packages/${name}/package.json`))),
   );
 
   assert.equal(codex.repository, canonical);
@@ -108,9 +113,74 @@ test('keeps canonical repository metadata accurate', async () => {
   assert.equal(workspace.repository.url, `git+${canonical}.git`);
   assert.equal(codex.interface.privacyPolicyURL, undefined);
   assert.equal(codex.interface.termsOfServiceURL, undefined);
-  for (const packageManifest of packages) {
+  assert.equal(workspace.bugs.url, `${canonical}/issues`);
+  assert.equal(workspace.homepage, `${canonical}#readme`);
+  for (const [index, packageManifest] of packages.entries()) {
     assert.equal(packageManifest.repository.url, `git+${canonical}.git`);
-    assert.match(packageManifest.homepage, /\/tree\/master\/packages\//);
+    assert.equal(packageManifest.bugs.url, `${canonical}/issues`);
+    assert.equal(
+      packageManifest.homepage,
+      `${canonical}/tree/main/packages/${packageNames[index]}#readme`,
+    );
+  }
+});
+
+test('describes every package honestly as source-only workspace software', async () => {
+  const publicReadmes = ['README.md', ...packageNames.map((name) => `packages/${name}/README.md`)];
+
+  for (const relativePath of publicReadmes) {
+    const readme = await read(relativePath);
+    assert.match(readme, /source-only/i, relativePath);
+    assert.match(readme, /not yet published/i, relativePath);
+    assert.match(
+      readme,
+      /git clone https:\/\/github\.com\/actually-useful-ai\/accessibility-devkit\.git/i,
+      relativePath,
+    );
+    assert.match(readme, /pnpm install/i, relativePath);
+    assert.match(readme, /pnpm (?:--filter .* )?build/i, relativePath);
+    assert.match(readme, /pnpm (?:--filter .* )?test/i, relativePath);
+    assert.doesNotMatch(
+      readme,
+      /(?:npm install|npm i|pnpm add|yarn add)\s+@accessibility-devkit\//i,
+      relativePath,
+    );
+    assert.doesNotMatch(readme, /pnpm release/i, relativePath);
+  }
+});
+
+test('publishes dual module metadata for every package when releases begin', async () => {
+  const packages = await Promise.all(
+    packageNames.map(async (name) => JSON.parse(await read(`packages/${name}/package.json`))),
+  );
+
+  for (const packageManifest of packages) {
+    assert.equal(packageManifest.module, './dist/index.mjs');
+    assert.deepEqual(packageManifest.exports, {
+      '.': {
+        types: './dist/index.d.ts',
+        import: './dist/index.mjs',
+        require: './dist/index.js',
+      },
+    });
+    assert.equal(packageManifest.publishConfig.access, 'public');
+  }
+});
+
+test('keeps legacy repository ownership out of public readmes and manifests', async () => {
+  const publicFiles = [
+    'README.md',
+    'package.json',
+    '.codex-plugin/plugin.json',
+    '.claude-plugin/plugin.json',
+    ...packageNames.flatMap((name) => [
+      `packages/${name}/README.md`,
+      `packages/${name}/package.json`,
+    ]),
+  ];
+
+  for (const relativePath of publicFiles) {
+    assert.doesNotMatch(await read(relativePath), /lukeslp\/accessibility-devkit/i, relativePath);
   }
 });
 

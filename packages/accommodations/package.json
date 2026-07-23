@@ -3,7 +3,15 @@
   "version": "0.1.0",
   "description": "Utilities for specific disability accommodations.",
   "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
   "files": [
     "dist"
   ],
@@ -26,13 +34,16 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lukeslp/accessibility-devkit.git",
+    "url": "git+https://github.com/actually-useful-ai/accessibility-devkit.git",
     "directory": "packages/accommodations"
   },
   "bugs": {
-    "url": "https://github.com/lukeslp/accessibility-devkit/issues"
+    "url": "https://github.com/actually-useful-ai/accessibility-devkit/issues"
   },
-  "homepage": "https://github.com/lukeslp/accessibility-devkit/tree/master/packages/accommodations#readme",
+  "homepage": "https://github.com/actually-useful-ai/accessibility-devkit/tree/main/packages/accommodations#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "color-blind": "^0.1.3"
   },

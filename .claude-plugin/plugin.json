@@ -6,8 +6,8 @@
     "name": "Luke Steuber",
     "url": "https://lukesteuber.com/"
   },
-  "homepage": "https://github.com/lukeslp/accessibility-devkit#readme",
-  "repository": "https://github.com/lukeslp/accessibility-devkit",
+  "homepage": "https://github.com/actually-useful-ai/accessibility-devkit#readme",
+  "repository": "https://github.com/actually-useful-ai/accessibility-devkit",
   "license": "MIT",
   "keywords": ["accessibility", "wcag-2.2", "aria", "keyboard", "screen-reader"]
 }

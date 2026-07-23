@@ -6,8 +6,8 @@
     "name": "Luke Steuber",
     "url": "https://lukesteuber.com/"
   },
-  "homepage": "https://github.com/lukeslp/accessibility-devkit#readme",
-  "repository": "https://github.com/lukeslp/accessibility-devkit",
+  "homepage": "https://github.com/actually-useful-ai/accessibility-devkit#readme",
+  "repository": "https://github.com/actually-useful-ai/accessibility-devkit",
   "license": "MIT",
   "keywords": [
     "accessibility",
@@ -25,7 +25,7 @@
     "developerName": "Luke Steuber",
     "category": "Developer Tools",
     "capabilities": ["Interactive", "Read", "Write"],
-    "websiteURL": "https://github.com/lukeslp/accessibility-devkit#readme",
+    "websiteURL": "https://github.com/actually-useful-ai/accessibility-devkit#readme",
     "defaultPrompt": [
       "Review this interface for accessibility barriers",
       "Fix keyboard and focus behavior in this component",

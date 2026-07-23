@@ -33,6 +33,7 @@ class ScannerTests(unittest.TestCase):
                 "color-only-communication",
                 "contrast-rendered",
                 "image-alt-empty-context",
+                "landmark-structure",
                 "target-size-spacing",
             }.issubset(manual)
         )

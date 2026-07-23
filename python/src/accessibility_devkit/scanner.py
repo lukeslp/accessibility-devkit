@@ -1,5 +1,6 @@
 """Conservative dependency-free HTML source scanner."""
 
+import json
 import re
 
 from .report import create_report, item
@@ -56,6 +57,16 @@ def _manual_baseline():
             remediation="Adjust rendered colors that do not meet the applicable text or non-text threshold.",
             verification="Measure computed colors in the browser and inspect every interactive state.",
         ),
+        item(
+            "landmark-structure",
+            "Review the rendered landmark structure, including nesting, repeated landmark labels, and content outside landmarks.",
+            certainty="manual",
+            severity="info",
+            evidence="runtime",
+            wcag=["1.3.1", "2.4.1"],
+            remediation="Use native landmark elements and label repeated landmarks of the same type when their purposes differ.",
+            verification="Inspect the accessibility tree and navigate the page with a screen reader landmark list.",
+        ),
     ]
 
 
@@ -63,21 +74,82 @@ def _profile_checks(profile):
     checks = []
     if profile in ("cvi", "all"):
         cvi = [
-            ("cvi-individual-profile", "Review the experience against the person’s individual CVI profile and preferred presentation."),
-            ("cvi-visual-complexity", "Review clutter, crowding, background complexity, and competing visual targets."),
-            ("cvi-fatigue-motion", "Review visual fatigue, latency, motion, and the time needed to find and interpret targets."),
-            ("cvi-multisensory-alternatives", "Confirm that important information has usable nonvisual or multisensory alternatives."),
+            (
+                "cvi-individual-profile",
+                "Review the experience against the person’s individual CVI profile and preferred presentation.",
+                "Make presentation, contrast, spacing, field complexity, and pacing adjustable.",
+                "Evaluate with the person or a qualified specialist; no universal palette or ratio establishes CVI access.",
+            ),
+            (
+                "cvi-visual-complexity",
+                "Review clutter, crowding, background complexity, and competing visual targets.",
+                "Reduce simultaneous visual demands and allow isolation of the current task.",
+                "Observe target recognition across realistic screens, not isolated components only.",
+            ),
+            (
+                "cvi-fatigue-motion",
+                "Review visual fatigue, latency, motion, and the time needed to find and interpret targets.",
+                "Provide pauses, stable layouts, reduced motion, and enough processing time.",
+                "Test over a representative session with the person’s preferred pacing.",
+            ),
+            (
+                "cvi-multisensory-alternatives",
+                "Confirm that important information has usable nonvisual or multisensory alternatives.",
+                "Provide meaningful speech, sound, touch, or text alternatives chosen with the person.",
+                "Complete key tasks using the person’s preferred combination of senses.",
+            ),
         ]
-        for rule_id, message in cvi:
-            checks.append(item(rule_id, message, classification="supplemental", certainty="manual", severity="info", evidence="human", remediation="Adapt the presentation to the person’s documented needs and preferences.", verification="Evaluate with the person or a qualified specialist; no universal palette or ratio establishes CVI access."))
+        for rule_id, message, remediation, verification in cvi:
+            checks.append(
+                item(
+                    rule_id,
+                    message,
+                    classification="supplemental",
+                    certainty="manual",
+                    severity="info",
+                    evidence="human",
+                    remediation=remediation,
+                    verification=verification,
+                )
+            )
     if profile in ("switch", "all"):
         switch = [
-            ("switch-control-verification", "Complete the primary flow with the operating system’s Switch Control.", []),
-            ("switch-timing-preferences", "Confirm scan speed, dwell, repeat filtering, and time limits can match the person’s needs.", []),
-            ("switch-simple-action", "Confirm complex pointer gestures have a single-switch or simple-action alternative.", ["2.5.1", "2.5.7"]),
+            (
+                "switch-control-verification",
+                "Complete the primary flow with the operating system’s Switch Control.",
+                [],
+                "Use native semantics, predictable focus order, and visible focus; remove unreachable controls.",
+                "Navigate, activate, dismiss, recover from errors, and complete the task using switch input only.",
+            ),
+            (
+                "switch-timing-preferences",
+                "Confirm scan speed, dwell, repeat filtering, and time limits can match the person’s needs.",
+                [],
+                "Expose timing choices and avoid a universal dwell or repeat interval.",
+                "Test slow and fast settings with the person’s switch configuration.",
+            ),
+            (
+                "switch-simple-action",
+                "Confirm complex pointer gestures have a single-switch or simple-action alternative.",
+                ["2.5.1", "2.5.7"],
+                "Add controls for drag, path, multipoint, and pointer-only actions.",
+                "Complete every pointer-driven action using focus and a single activation command.",
+            ),
         ]
-        for rule_id, message, wcag in switch:
-            checks.append(item(rule_id, message, classification="supplemental", certainty="manual", severity="info", evidence="human", wcag=wcag, remediation="Use native semantics, simple actions, and adjustable timing.", verification="Complete the task with the person’s switch configuration."))
+        for rule_id, message, wcag, remediation, verification in switch:
+            checks.append(
+                item(
+                    rule_id,
+                    message,
+                    classification="supplemental",
+                    certainty="manual",
+                    severity="info",
+                    evidence="human",
+                    wcag=wcag,
+                    remediation=remediation,
+                    verification=verification,
+                )
+            )
     return checks
 
 
@@ -95,7 +167,8 @@ def scan_source(source, target, profile=None):
         if not identifier:
             continue
         if identifier in ids:
-            findings.append(item("duplicate-id", f"The id {identifier!r} is used more than once.", wcag=["1.3.1", "4.1.2"], location=tag["location"], remediation="Give each relationship target a unique id and update its references.", verification=f"Confirm every reference to {identifier!r} resolves to one intended element."))
+            quoted_identifier = json.dumps(identifier)
+            findings.append(item("duplicate-id", f"The id {quoted_identifier} is used more than once.", wcag=["1.3.1", "4.1.2"], location=tag["location"], remediation="Give each relationship target a unique id and update its references.", verification=f"Confirm every reference to {quoted_identifier} resolves to one intended element."))
         else:
             ids[identifier] = tag
 
@@ -134,7 +207,7 @@ def scan_source(source, target, profile=None):
     for match in re.finditer(r"<a\b[^>]*>([\s\S]*?)</a>", source, re.IGNORECASE):
         text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", match.group(1))).strip()
         if not text or re.fullmatch(r"click here|read more|learn more|more", text, re.IGNORECASE):
-            findings.append(item("link-purpose", "A link has empty or generic source-visible text.", certainty="potential", severity="warning", wcag=["2.4.4"], location=_location(source, match.start(), match.group(0)[:120]), remediation="Write link text that identifies the destination or action in context.", verification="Review the computed accessible name and a links-only list."))
+            findings.append(item("link-purpose", "A link has empty or generic source-visible text.", certainty="potential", severity="warning", wcag=["2.4.4"], location=_location(source, match.start(), source[match.start():match.start() + 120]), remediation="Write link text that identifies the destination or action in context.", verification="Review the computed accessible name and a links-only list."))
 
     for match in re.finditer(r"<table\b[^>]*>([\s\S]*?)</table>", source, re.IGNORECASE):
         if not re.search(r"<th\b", match.group(1), re.IGNORECASE):

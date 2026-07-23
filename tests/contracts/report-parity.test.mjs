@@ -49,14 +49,14 @@ function pythonReport(extra = []) {
 
 function itemContract(item) {
   return {
-    ruleId: item.ruleId,
-    classification: item.classification,
-    certainty: item.certainty,
-    severity: item.severity,
-    evidence: item.evidence,
-    wcag: item.wcag,
-    line: item.location?.line ?? null,
-    column: item.location?.column ?? null,
+    ...item,
+    location: item.location
+      ? {
+          line: item.location.line,
+          column: item.location.column,
+          excerpt: item.location.excerpt ?? null,
+        }
+      : null,
   };
 }
 
@@ -78,7 +78,7 @@ test('Node and Python reports validate against JSON Schema 2020-12', () => {
   }
 });
 
-test('Node and Python scanners emit the same finding contract', () => {
+test('Node and Python scanners emit the same findings and guidance', () => {
   assert.deepEqual(normalized(nodeReport()), normalized(pythonReport()));
 });
 

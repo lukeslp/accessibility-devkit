@@ -33,6 +33,7 @@ describe('static scanning', () => {
         'color-only-communication',
         'contrast-rendered',
         'image-alt-empty-context',
+        'landmark-structure',
         'target-size-spacing',
       ]),
     );

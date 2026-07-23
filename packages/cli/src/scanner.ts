@@ -116,6 +116,20 @@ function manualBaseline(): ReportItem[] {
         'Adjust rendered colors that do not meet the applicable text or non-text threshold.',
       verification: 'Measure computed colors in the browser and inspect every interactive state.',
     }),
+    item({
+      ruleId: 'landmark-structure',
+      classification: 'normative',
+      certainty: 'manual',
+      severity: 'info',
+      evidence: 'runtime',
+      message:
+        'Review the rendered landmark structure, including nesting, repeated landmark labels, and content outside landmarks.',
+      wcag: ['1.3.1', '2.4.1'],
+      remediation:
+        'Use native landmark elements and label repeated landmarks of the same type when their purposes differ.',
+      verification:
+        'Inspect the accessibility tree and navigate the page with a screen reader landmark list.',
+    }),
   ];
 }
 

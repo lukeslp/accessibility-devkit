@@ -47,6 +47,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "dependencies": {
+    "@accessibility-devkit/core": "workspace:*"
+  },
   "devDependencies": {
     "@types/node": "^20.11.24"
   }
